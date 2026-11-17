@@ -1,7 +1,6 @@
 """Auth helpers, CSRF protection and tenant scoping."""
 import hmac
 import secrets
-import time
 from functools import wraps
 from flask import session, g, request, redirect, url_for, abort, flash
 from .db import get_db
@@ -72,29 +71,3 @@ def get_owned(table: str, row_id, company_id: int):
         f"SELECT * FROM {table} WHERE id=? AND company_id=?", (row_id, company_id)
     ).fetchone()
     return dict(row) if row else None
-
-
-_HITS = {}
-
-
-def over_limit(kind: str, key: str, limit: int, window: int) -> bool:
-    """True when `key` already has `limit` recorded hits inside the last `window` seconds."""
-    now = time.time()
-    hits = [x for x in _HITS.get((kind, key), []) if now - x < window]
-    _HITS[(kind, key)] = hits
-    return len(hits) >= limit
-
-
-def record_hit(kind: str, key: str):
-    _HITS.setdefault((kind, key), []).append(time.time())
-    if len(_HITS) > 5000:
-        _HITS.clear()
-
-
-def rate_limited(kind: str, limit: int, window: int = 60, key=None) -> bool:
-    """Tiny in-memory limiter (one process), per client IP unless `key` is given. Counts the call; True = over the limit."""
-    k = key or (request.remote_addr or "")
-    if over_limit(kind, k, limit, window):
-        return True
-    record_hit(kind, k)
-    return False

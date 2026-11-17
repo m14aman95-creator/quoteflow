@@ -8,15 +8,6 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")
 from quoteflow import create_app  # noqa: E402
 
 
-@pytest.fixture(autouse=True)
-def _reset_rate_limits():
-    import quoteflow.security as sec
-    import quoteflow.views_public as pub
-    sec._HITS.clear()
-    pub._HITS.clear()
-    yield
-
-
 @pytest.fixture()
 def app():
     tmp = tempfile.mkdtemp()

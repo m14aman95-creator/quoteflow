@@ -2,7 +2,6 @@ import json
 from datetime import date
 import pytest
 import seed
-import legacy_seed
 from quoteflow.db import get_db
 from quoteflow.ai import run_extraction, find_prices, scrub
 from quoteflow.ai.claude import ClaudeProvider, ProviderError, parse_json_object
@@ -15,7 +14,7 @@ TODAY = date(2026, 11, 17)  # a Tuesday
 
 @pytest.fixture()
 def cat(app):
-    legacy_seed.seed_legacy(app)
+    seed.seed_legacy(app)
     with app.app_context():
         return [dict(r) for r in get_db().execute(
             "SELECT * FROM services WHERE company_id=(SELECT id FROM companies WHERE email='ac@demo.qf')")]

@@ -1,0 +1,10 @@
+<div class="card">
+  <b>Status</b>
+  <form method="post" action="{{ ep_url('quotes.set_status', qid=q.id) }}" class="btnrow" style="margin-top:8px">
+    <input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+    {% for s in STATUSES %}
+    <button class="btn small {{ '' if status==s else 'secondary' }}" name="status" value="{{ s }}" {{ 'disabled' if s in ('sent','follow_up','accepted') and not q.approved_at }}>{{ t(STATUS_LABEL[s]) }}</button>
+    {% endfor %}
+  </form>
+  {% if not q.approved_at %}<p class="muted">Approve the quote to mark it as Sent, Follow-up or Accepted.</p>{% endif %}
+</div>

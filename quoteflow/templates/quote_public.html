@@ -1,0 +1,205 @@
+{% from "_icons.html" import icon %}
+{%- macro T(it, f) -%}{%- if lang == 'ar' -%}{{ it[f ~ '_ar'] or it[f ~ '_en'] }}{%- else -%}{{ it[f ~ '_en'] or it[f ~ '_ar'] }}{%- endif -%}{%- endmacro -%}
+{%- macro U(u) -%}{{ unit_ar.get(u, u) if lang == 'ar' else u }}{%- endmacro -%}
+<!doctype html>
+<html lang="{{ lang }}" dir="{{ dir }}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#0a4f4a">
+<title>{{ P.quote }} {{ q.number }} · {{ co.name_en or co.name_ar }}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}">
+<style>
+body{padding-bottom:110px;background:#f1f4f6}
+.pwrap{max-width:760px;margin:0 auto;padding:0 14px 20px}
+.phead{background:linear-gradient(125deg,#062f2c,var(--brand) 50%,#127f74);color:#fff;border-radius:0 0 26px 26px;padding:20px 20px 74px;position:relative;overflow:hidden}
+.phead::before{content:"";position:absolute;inset:0;background:radial-gradient(500px 220px at 95% -10%,rgba(200,161,90,.40),transparent 60%)}
+.phead>div{position:relative;max-width:760px;margin:0 auto}
+.ptop{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.pco{display:flex;align-items:center;gap:12px;min-width:0}
+.pco img{height:40px;max-width:110px;border-radius:9px;object-fit:contain}
+.pco b{font-size:1.02rem;display:block;line-height:1.2}
+.pco span{font-size:.78rem;color:#bfe3de}
+.plang{font-size:.8rem;font-weight:600;color:#fff;border:1px solid rgba(255,255,255,.45);padding:4px 12px;border-radius:99px;white-space:nowrap}
+.plang:hover{text-decoration:none;background:rgba(255,255,255,.12)}
+.ptitle{margin-top:22px}
+.ptitle .eyebrow{font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:#e7d3a8;font-weight:700}
+.ptitle h1{color:#fff;font-size:1.7rem;margin:4px 0 6px}
+.ptitle p{margin:0;color:#d4ebe8;max-width:52ch;font-size:.95rem}
+.pull{margin-top:-52px;position:relative}
+.vchip{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);color:#fff;padding:4px 12px;border-radius:99px;font-size:.8rem;font-weight:600;margin-top:12px}
+.vchip.warn{background:#fff4df;color:#b45309;border-color:#f3dbb0}
+.banner{display:flex;gap:12px;align-items:flex-start;padding:14px 16px;border-radius:14px;margin-bottom:14px;font-weight:500}
+.banner.ok{background:var(--ok-bg);color:var(--ok);border:1px solid #c5ebd2}
+.banner.warn{background:var(--unsure-bg);color:var(--unsure);border:1px solid #f3dbb0}
+.banner.gray{background:#eceff3;color:#475467;border:1px solid #dde2e8}
+.irow{display:flex;gap:12px;padding:14px 0;border-bottom:1px solid var(--line)}
+.irow:last-child{border-bottom:0;padding-bottom:0}.irow:first-child{padding-top:0}
+.irow .n{width:26px;height:26px;border-radius:50%;background:var(--brand-soft);color:var(--brand);display:grid;place-items:center;font-size:.76rem;font-weight:700;flex:none;margin-top:2px}
+.irow .g{flex:1;min-width:0}
+.irow .g b{display:block;font-size:1rem}
+.irow .g .muted{margin-top:2px}
+.irow .p{text-align:end;white-space:nowrap}
+.irow .p small{display:block;color:var(--muted);font-size:.78rem}
+.opt{font-weight:400;font-size:1rem;display:flex;gap:12px;align-items:flex-start;border:1.5px solid var(--line);border-radius:14px;padding:13px 14px;margin-top:10px;cursor:pointer;background:#fff;transition:border-color .15s,background .15s,box-shadow .15s}
+.opt:hover{border-color:#b8d6d2}
+.opt.on{border-color:var(--brand-2);background:#f2faf8;box-shadow:0 0 0 3px rgba(15,118,110,.10)}
+.opt input{position:absolute;opacity:0;pointer-events:none}
+.sw{width:42px;height:24px;border-radius:99px;background:#cbd2da;position:relative;flex:none;margin-top:2px;transition:background .15s}
+.sw::after{content:"";position:absolute;top:3px;inset-inline-start:3px;width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:inset-inline-start .15s}
+.opt.on .sw{background:var(--brand-2)}
+.opt.on .sw::after{inset-inline-start:21px}
+.opt.locked{cursor:default}
+.opt .g{flex:1;min-width:0}.opt .g b{display:block}
+.opt .p{text-align:end;white-space:nowrap;font-weight:700}
+.sumrow{display:flex;justify-content:space-between;padding:7px 0;color:var(--ink-2)}
+.sumrow.total{border-top:2px solid var(--ink);margin-top:6px;padding-top:12px;font-size:1.35rem;font-weight:700;color:var(--brand)}
+.stickybar{position:fixed;left:0;right:0;bottom:0;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:10px 14px calc(10px + env(safe-area-inset-bottom));z-index:30}
+.stickybar>div{max-width:760px;margin:0 auto;display:flex;align-items:center;gap:14px;justify-content:space-between}
+.stickybar .tt small{display:block;color:var(--muted);font-size:.72rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+.stickybar .tt b{font-size:1.25rem;font-variant-numeric:tabular-nums}
+.acts{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.panel{border:1.5px solid var(--brand-2);border-radius:16px;padding:16px;background:#fff;margin-top:14px}
+.sec-t{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.sec-t b{font-size:1.02rem}
+.err{color:var(--bad);font-weight:600;margin-top:8px}
+.fine{font-size:.8rem;color:var(--muted);text-align:center;margin:18px 0 6px}
+.pill{display:inline-block;background:var(--ok-bg);color:var(--ok);border-radius:99px;font-size:.7rem;font-weight:700;padding:1px 9px;margin-inline-start:6px}
+details.terms summary{cursor:pointer;font-weight:600;list-style:none}
+details.terms summary::-webkit-details-marker{display:none}
+details.terms[open] summary{margin-bottom:8px}
+</style>
+</head>
+<body>
+<div class="phead"><div>
+  <div class="ptop">
+    <div class="pco">{% if logo %}<img src="{{ logo }}" alt="">{% endif %}<div><b>{{ (co.name_ar if lang=='ar' and co.name_ar else co.name_en) or co.name_ar }}</b><span>{{ co.phone }}</span></div></div>
+    <a class="plang" href="{{ url_for('public.view', token=token, lang='en' if lang=='ar' else 'ar') }}">{{ 'English' if lang=='ar' else 'العربية' }}</a>
+  </div>
+  <div class="ptitle">
+    <div class="eyebrow">{{ P.quote }} · <bdi dir="ltr">{{ q.number }}</bdi></div>
+    <h1>{{ P.hello.format(name=(cust.name if cust and cust.name else '')).strip() }}</h1>
+    <p>{{ P.intro.format(co=(co.name_ar if lang=='ar' and co.name_ar else co.name_en)) }}</p>
+    {% if q.valid_until %}<span class="vchip {{ 'warn' if expired or (days_left is not none and days_left <= 3) }}">{{ icon('clock', 15) }}
+      {% if expired %}{{ P.valid }} {{ q.valid_until }}{% elif days_left == 0 %}{{ P.today }}{% elif days_left is not none %}{{ P.left.format(n=days_left) }} · {{ q.valid_until }}{% endif %}</span>{% endif %}
+  </div>
+</div></div>
+
+<div class="pwrap pull">
+{% if responded and q.status == 'accepted' %}
+  <div class="banner ok">{{ icon('check', 22) }}<div>{{ P.accepted_by.format(name=q.response_name, date=q.responded_at[:10]) }}</div></div>
+{% elif responded %}
+  <div class="banner gray"><div>{{ P.declined }}</div></div>
+{% elif expired %}
+  <div class="banner warn"><div>{{ P.expired }}</div></div>
+{% endif %}
+
+<form method="post" action="{{ url_for('public.accept', token=token, lang=lang) }}" id="acceptform">
+<input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+
+<div class="card">
+  <div class="sec-t"><b>{{ P.included }}</b></div>
+  {% for it, r in base %}
+  <div class="irow"><div class="n">{{ loop.index }}</div>
+    <div class="g"><b>{{ T(it, 'title') }}</b><div class="muted">{{ T(it, 'desc') }}</div></div>
+    <div class="p"><b class="num">{{ r.line_total_fils|bhd }}</b><small>{{ fmt_qty(it.quantity_milli) }} × {{ it.unit_price_fils|bhd }} / {{ U(it.unit) }}</small></div>
+  </div>
+  {% endfor %}
+</div>
+
+{% if opts %}
+<div class="card">
+  <div class="sec-t"><b>{{ P.optional }}</b></div>
+  {% if can_act %}<div class="muted" style="margin-top:-4px">{{ P.optional_hint }}</div>{% endif %}
+  {% for it, amount, on in opts %}
+  <label class="opt {{ 'on' if on }} {{ '' if can_act else 'locked' }}">
+    <input type="checkbox" name="opt" value="{{ it.id }}" {{ 'checked' if on }} {{ '' if can_act else 'disabled' }}>
+    <span class="sw"></span>
+    <span class="g"><b>{{ T(it, 'title') }}</b><span class="muted">{{ T(it, 'desc') }}</span></span>
+    <span class="p"><span class="num">+ {{ amount|bhd }}</span><small class="muted" style="display:block;font-weight:400">{{ fmt_qty(it.quantity_milli) }} × {{ it.unit_price_fils|bhd }}</small></span>
+  </label>
+  {% endfor %}
+</div>
+{% endif %}
+
+<div class="card">
+  <div class="sumrow"><span>{{ P.subtotal }}</span><span class="num" id="v_sub">{{ pay.subtotal }}</span></div>
+  {% if t.discount_fils or can_act %}<div class="sumrow" id="r_disc" {{ 'hidden' if not t.discount_fils }}><span>{{ P.discount }}</span><span class="num"><bdi dir="ltr">-<span id="v_disc">{{ pay.discount }}</span></bdi></span></div>{% endif %}
+  {% if t.vat_applied %}<div class="sumrow"><span>{{ P.vat }} {{ '%g' % (t.vat_rate_bp/100) }}%</span><span class="num" id="v_vat">{{ pay.vat }}</span></div>
+  {% else %}<div class="sumrow"><span class="muted">{{ P.notvat }}</span><span></span></div>{% endif %}
+  <div class="sumrow total"><span>{{ P.total }} <small class="muted" style="font-size:.7rem">{{ P.currency }}</small></span><span class="num" id="v_total">{{ pay.total }}</span></div>
+</div>
+
+{% if q.notes or q.terms_en or q.terms_ar %}
+<div class="card"><details class="terms"><summary>{{ P.terms }}</summary>
+  {% if q.notes %}<p><b>{{ P.notes }}:</b> {{ q.notes }}</p>{% endif %}
+  <div class="muted" style="white-space:pre-line">{{ (q.terms_ar or q.terms_en) if lang=='ar' else (q.terms_en or q.terms_ar) }}</div>
+</details></div>
+{% endif %}
+
+{% if can_act %}
+<div class="panel" id="accept" {{ '' if request.args.get('err') else 'hidden' }}>
+  <b>{{ P.accept }}</b>
+  <label>{{ P.your_name }}</label>
+  <input name="name" maxlength="120" autocomplete="name" value="">
+  <label style="display:flex;gap:10px;align-items:flex-start;font-weight:400;margin-top:14px"><input type="checkbox" name="agree" value="1" style="margin-top:4px"> <span>{{ P.agree }}</span></label>
+  {% if request.args.get('err') %}<div class="err">{{ P.name_needed }}</div>{% endif %}
+  <div class="acts"><button class="btn" type="submit">{{ icon('check', 18) }} {{ P.confirm }}</button>
+  <button class="btn secondary" type="button" data-close="accept">{{ P.cancel }}</button></div>
+</div>
+{% endif %}
+</form>
+
+{% if can_act %}
+<form method="post" action="{{ url_for('public.decline', token=token, lang=lang) }}" class="panel" id="decline" hidden style="border-color:#d5dbe3">
+  <input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+  <b>{{ P.decline }}</b>
+  <label>{{ P.reason }}</label><textarea name="reason" maxlength="300" style="min-height:80px"></textarea>
+  <div class="acts"><button class="btn danger" type="submit">{{ P.send_decline }}</button><button class="btn secondary" type="button" data-close="decline">{{ P.cancel }}</button></div>
+</form>
+{% endif %}
+
+<div class="acts">
+  {% if can_act %}<button class="btn secondary" type="button" data-open="decline">{{ P.decline }}</button>{% endif %}
+  {% if digits %}<a class="btn secondary" target="_blank" rel="noopener" href="https://wa.me/{{ digits }}?text={{ P.wa_q.format(no=q.number)|urlencode }}">{{ icon('chat', 18) }} {{ P.ask }}</a>{% endif %}
+  <a class="btn secondary" id="pdflink" href="{{ url_for('public.pdf', token=token, lang=lang) }}">{{ icon('download', 18) }} {{ P.pdf }}</a>
+</div>
+<div class="fine">{{ P.secure.format(co=(co.name_ar if lang=='ar' and co.name_ar else co.name_en)) }}</div>
+</div>
+
+{% if can_act %}
+<div class="stickybar"><div>
+  <div class="tt"><small>{{ P.total }} · {{ P.currency }}</small><b class="num" id="bar_total">{{ pay.total }}</b></div>
+  <button class="btn gold" type="button" data-open="accept">{{ icon('check', 18) }} {{ P.accept }}</button>
+</div></div>
+{% endif %}
+
+<script>
+(function(){
+  var token={{ token|tojson }}, csrf={{ csrf_token()|tojson }};
+  function $(id){return document.getElementById(id);}
+  function selected(){return [].slice.call(document.querySelectorAll('input[name=opt]:checked')).map(function(e){return e.value;});}
+  function paint(j){
+    if(!j||j.error) return;
+    $('v_sub').textContent=j.subtotal; $('v_total').textContent=j.total; if($('bar_total')) $('bar_total').textContent=j.total;
+    if($('v_vat')) $('v_vat').textContent=j.vat;
+    var d=$('r_disc'); if(d){ d.hidden=(j.discount==='0.000'); $('v_disc').textContent=j.discount; }
+    var pl=$('pdflink'); if(pl){ var u=new URL(pl.href); u.searchParams.set('sel',selected().join(',')); pl.href=u.toString(); }
+  }
+  function refresh(){
+    fetch('/q/'+token+'/totals',{method:'POST',headers:{'Content-Type':'application/json','X-CSRF-Token':csrf},body:JSON.stringify({selected:selected()})})
+      .then(function(r){return r.json();}).then(paint).catch(function(){});
+  }
+  document.querySelectorAll('label.opt').forEach(function(l){
+    var cb=l.querySelector('input'); if(!cb||cb.disabled) return;
+    cb.addEventListener('change',function(){ l.classList.toggle('on',cb.checked); refresh(); });
+  });
+  document.querySelectorAll('[data-open]').forEach(function(b){b.addEventListener('click',function(){
+    var p=$(b.dataset.open); p.hidden=false; p.scrollIntoView({behavior:'smooth',block:'center'});
+    var f=p.querySelector('input[name=name],textarea'); if(f) setTimeout(function(){f.focus({preventScroll:true});},350); });});
+  document.querySelectorAll('[data-close]').forEach(function(b){b.addEventListener('click',function(){ $(b.dataset.close).hidden=true; });});
+})();
+</script>
+</body>
+</html>

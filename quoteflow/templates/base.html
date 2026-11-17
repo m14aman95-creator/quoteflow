@@ -27,7 +27,6 @@
   <a href="{{ url_for('main.dashboard') }}" class="{{ 'on' if ep=='main.dashboard' }}">{{ icon('home') }}<span>{{ t('Dashboard') }}</span></a>
   <a href="{{ ep_url('quotes.history') }}" class="{{ 'on' if ep.startswith('quotes.') and ep != 'quotes.new_enquiry' }}">{{ icon('doc') }}<span>{{ t('Quotes') }}</span></a>
   <a href="{{ ep_url('quotes.new_enquiry') }}" class="cta"><span class="ic-wrap">{{ icon('plus', 24) }}</span><span>{{ t('New enquiry') }}</span></a>
-  <a href="{{ url_for('requests.index') }}" class="{{ 'on' if ep.startswith('requests.') or ep == 'requests.portal_settings' }}"><span class="navic">{{ icon('inbox') }}{% if nav_new_requests %}<i class="badge">{{ nav_new_requests }}</i>{% endif %}</span><span>{{ t('Requests') }}</span></a>
   <a href="{{ ep_url('catalogue.index') }}" class="{{ 'on' if ep.startswith('catalogue.') }}">{{ icon('list') }}<span>{{ t('Catalogue') }}</span></a>
   <a href="{{ url_for('main.settings') }}" class="{{ 'on' if ep.startswith('main.settings') }}">{{ icon('gear') }}<span>{{ t('Settings') }}</span></a>
 </nav>

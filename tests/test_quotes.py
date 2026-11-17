@@ -1,7 +1,6 @@
 import json
 import pytest
 import seed
-import legacy_seed
 from conftest import Client
 from quoteflow.db import get_db
 from quoteflow.usage import usage_summary
@@ -11,7 +10,7 @@ MSG = "Need AC service for three units in Saar tomorrow, one is leaking, send pr
 
 @pytest.fixture()
 def ac(app):
-    legacy_seed.seed_legacy(app)
+    seed.seed_legacy(app)
     c = Client(app)
     assert c.post("/login", {"email": "ac@demo.qf", "password": "demo1234"}, page="/login").status_code == 302
     return c
@@ -168,7 +167,7 @@ def test_live_totals_endpoint_uses_server_engine(app, ac):
 
 
 def test_free_plan_limit_blocks_6th_quote(app):
-    legacy_seed.seed_legacy(app)
+    seed.seed_legacy(app)
     c = Client(app)
     c.post("/login", {"email": "clean@demo.qf", "password": "demo1234"}, page="/login")   # Free: 5/month
     for _ in range(5):
@@ -180,7 +179,7 @@ def test_free_plan_limit_blocks_6th_quote(app):
 
 
 def test_tenant_isolation_on_quotes_and_enquiries(app):
-    legacy_seed.seed_legacy(app)
+    seed.seed_legacy(app)
     a, b = Client(app), Client(app)
     a.post("/login", {"email": "ac@demo.qf", "password": "demo1234"}, page="/login")
     b.post("/login", {"email": "clean@demo.qf", "password": "demo1234"}, page="/login")

@@ -1,6 +1,6 @@
 """Offline rule-based extractor. NOT an LLM: patterns, a Bahrain area list and the user's catalogue keywords.
 
-It exists so the app works without an API key and as a baseline for the evaluation report.
+It exists so the demo works without an API key and as a baseline for the evaluation report.
 It returns the same shape the language model must return (ai.schema.RawExtraction), so both go through the
 same validation, price guard and trust-cue pipeline."""
 import re

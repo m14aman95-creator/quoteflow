@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ t('Company profile') }}{% if onboarding %} <span class="muted">· step 1 of 2</span>{% endif %}</h1>
+{% if onboarding %}<p class="muted">Two minutes now means your first quote can go out today. You can change everything later.</p>{% endif %}
+<form method="post" enctype="multipart/form-data" class="card">
+  <input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+  <input type="hidden" name="onboarding" value="{{ '1' if onboarding else '0' }}">
+  <div class="row two">
+    <div><label>Company name (English)</label><input name="name_en" value="{{ company.name_en }}" required maxlength="120"></div>
+    <div><label>اسم الشركة (Arabic name)</label><input name="name_ar" dir="rtl" value="{{ company.name_ar }}" maxlength="120"></div>
+  </div>
+  <div class="row two">
+    <div><label>CR number</label><input name="cr_number" value="{{ company.cr_number }}" maxlength="40"></div>
+    <div><label>Logo (PNG/JPG)</label><input type="file" name="logo" accept="image/png,image/jpeg">
+      {% if company.logo_path %}<img src="{{ url_for('main.logo') }}" alt="logo" style="max-height:50px;margin-top:6px">{% endif %}</div>
+  </div>
+  <div class="row three">
+    <div><label>Phone / WhatsApp</label><input name="phone" value="{{ company.phone }}" maxlength="40"></div>
+    <div><label>Email</label><input name="email" value="{{ company.email }}" maxlength="120"></div>
+    <div><label>Address</label><input name="address" value="{{ company.address }}" maxlength="200"></div>
+  </div>
+
+  <h2>VAT</h2>
+  <div class="row three">
+    <div><label>VAT status</label>
+      <select name="vat_registered" id="vatreg">
+        <option value="yes" {{ 'selected' if company.vat_registered }}>VAT registered</option>
+        <option value="no" {{ 'selected' if not company.vat_registered }}>Not VAT registered</option>
+      </select></div>
+    <div><label>VAT number</label><input name="vat_number" value="{{ company.vat_number }}" maxlength="40"></div>
+    <div><label>Standard VAT rate (%)</label><input name="vat_rate" inputmode="decimal" value="{{ '%g' % (company.vat_rate_bp/100) }}"></div>
+  </div>
+  <label style="font-weight:400"><input type="checkbox" name="vat_confirm" value="1" {{ 'checked' if company.vat_confirmed_at }} required>
+    I confirm these VAT settings are correct for my business.</label>
+  <div class="notice">If you are not VAT registered, no VAT is added to your quotes. Individual items can be set to standard, zero-rated or exempt in your catalogue. QuoteFlow applies the settings you choose and is not tax advice. Check the rules with the National Bureau for Revenue or your accountant.</div>
+
+  <h2>Quotation defaults</h2>
+  <div class="row three">
+    <div><label>Validity (days)</label><input type="number" name="validity_days" min="1" max="365" value="{{ company.validity_days }}"></div>
+    <div><label>Preferred quote language</label>
+      <select name="preferred_lang">
+        <option value="en" {{ 'selected' if company.preferred_lang=='en' }}>English</option>
+        <option value="ar" {{ 'selected' if company.preferred_lang=='ar' }}>العربية (Arabic)</option>
+        <option value="both" {{ 'selected' if company.preferred_lang=='both' }}>Both (English + Arabic)</option>
+      </select></div>
+    <div><label>Currency</label><input value="BHD (3 decimals)" disabled></div>
+  </div>
+  <label>Default terms (English)</label>
+  <textarea name="default_terms_en" maxlength="1500">{{ company.default_terms_en }}</textarea>
+  <label>الشروط الافتراضية (Arabic)</label>
+  <textarea name="default_terms_ar" dir="rtl" maxlength="1500">{{ company.default_terms_ar }}</textarea>
+
+  <h2>Privacy</h2>
+  <label>Delete the original enquiry text after (days)</label>
+  <input type="number" name="retention_days" min="1" max="365" value="{{ company.retention_days }}">
+  <div class="muted">Extracted details stay on your quotes. The raw WhatsApp/email text is removed automatically.</div>
+
+  <div class="btnrow"><button class="btn" type="submit">{{ 'Save and continue' if onboarding else t('Save') }}</button></div>
+</form>
+
+{% if not onboarding %}
+<div class="card">
+  <h2>{{ t('Plan') }} &amp; usage</h2>
+  <div style="display:flex;justify-content:space-between"><span>{{ t('Quotes this month') }}</span><b>{{ usage.used }} / {{ usage.limit }}</b></div>
+  <div class="meter {{ 'full' if usage.exceeded }}"><span style="width:{{ usage.pct }}%"></span></div>
+  <form method="post" action="{{ url_for('main.change_plan') }}" class="btnrow">
+    <input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+    <select name="plan" style="max-width:260px">
+      {% for key, p in plans.items() %}
+      <option value="{{ key }}" {{ 'selected' if key==company.plan }}>{{ p.name }}: {{ p.quotes_per_month }} quotes/month (BHD {{ p.price_bhd }})</option>
+      {% endfor %}
+    </select>
+    <button class="btn secondary" type="submit">Change plan</button>
+  </form>
+  <div class="notice">Demo mode: billing and payments are not connected. Changing the plan only changes the monthly limit.</div>
+</div>
+<p class="muted"><a href="{{ url_for('main.audit_view') }}">View activity / audit log</a></p>
+{% endif %}
+{% endblock %}

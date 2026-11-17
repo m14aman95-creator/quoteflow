@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<form method="post" class="card">
+  <input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+  <h1 style="margin-top:0">{{ t('Create account') }}</h1>
+  <p class="muted" style="margin-top:-6px">Set up in about two minutes. No card needed.</p>
+  <label>Company name</label>
+  <input name="company_name" value="{{ form.get('company_name','') }}" required maxlength="120">
+  <label>Your name</label>
+  <input name="name" value="{{ form.get('name','') }}" maxlength="120">
+  <label>{{ t('Username') }} <span class="muted">(3-30 letters, numbers, . - _)</span></label>
+  <input name="username" value="{{ form.get('username','') }}" required minlength="3" maxlength="30" pattern="[A-Za-z0-9._\-]+" autocomplete="username" autocapitalize="none" spellcheck="false">
+  <label>{{ t('Email') }} <span class="muted">(optional, for notifications)</span></label>
+  <input type="email" name="email" value="{{ form.get('email','') }}" maxlength="200" autocomplete="email">
+  <label>{{ t('Password') }} <span class="muted">(8+ characters)</span></label>
+  <input type="password" name="password" required minlength="8" autocomplete="new-password">
+  <div class="btnrow"><button class="btn" type="submit">{{ t('Create account') }}</button>
+  <a class="btn secondary" href="{{ url_for('auth.login') }}">{{ t('Log in') }}</a></div>
+</form>
+{% endblock %}

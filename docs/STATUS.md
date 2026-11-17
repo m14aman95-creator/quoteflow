@@ -12,11 +12,7 @@
 9. Customer and quote history, search, six statuses (Expired is computed from the validity date).
 10. Quote counter per plan with enforced limits; billing stubbed.
 11. Feedback prompt after approval (as-is / minor / major / unusable).
-Plus: integer-fils money engine with unit tests, price guard, injection defences, tenant isolation, audit log, retention purge, 178 tests, evaluation sets, Dockerfile, README, demo script.
-
-## Added later
-- Customer portal at `/c/<slug>/`: customers register (mobile + password), send requests, track status, see the approved quotation, schedule and messages; owner inbox, job statuses, reply, QR code for the portal link. Bilingual, RTL.
-- Owner login is a username and password. No demo accounts or default login exist; `ADMIN_USERNAME`/`ADMIN_PASSWORD` optionally create the first owner on start-up.
+Plus: integer-fils money engine with unit tests, price guard, injection defences, tenant isolation, audit log, retention purge, 129 tests, evaluation sets, Dockerfile, README, demo script.
 
 ## Evaluation (offline reader; see eval/)
 | Set | Fields | Service precision / recall | Quantities | Missing-detail questions | Unsafe prices |
@@ -42,5 +38,3 @@ WhatsApp Business API, accounting/ERP integration, AI pricing, autonomous sendin
 2. Before real customers: password reset, email verification, login rate limiting, HTTPS-only cookies, backups, Postgres, and a Bahrain PDPL legal review of AI vendor data transfers.
 3. Pilot with 5 to 10 businesses; track time-to-first-quote and the feedback ratings.
 4. Then: multi-user approvals (Professional/Business), reminders for Follow-up quotes, vertical prompts (AC, cleaning).
-- Portal: emails are verified by a 6-digit code (needs SMTP), but mobile numbers are not (needs an SMS provider), so a stranger could register a number that belongs to someone else (the owner reviews every request and can reset passwords). The code emails were tested with a fake mailer only. No photo uploads yet. Customer request text is kept with the request so customers can see their history (only the raw enquiry copy is purged by the retention setting); a "delete my account" option is not built. Rate limits are in memory per process (fine for one worker).
-- Real SMTP delivery of customer emails was never tested against a live mail server in the build environment.
