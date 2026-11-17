@@ -1,0 +1,19 @@
+{% extends "portal_base.html" %}
+{% block content %}
+<form method="post" class="pt-card pform" style="max-width:600px">
+  <input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+  <h2>{{ T.new_request }}</h2>
+  <label>{{ T.f_service }}</label>
+  <select name="service_id">
+    <option value="">{{ T.f_other }}</option>
+    {% for s in services %}<option value="{{ s.id }}" {{ 'selected' if form.get('service_id') == s.id|string }}>{{ s.name_ar if L=='ar' and s.name_ar else s.name_en }}</option>{% endfor %}
+  </select>
+  <label>{{ T.f_details }}</label>
+  <textarea name="details" required minlength="10" maxlength="2000" placeholder="{{ T.f_details_ph }}" dir="auto" style="min-height:130px">{{ form.get('details','') }}</textarea>
+  <label>{{ T.f_location }}</label><input name="location" value="{{ form.get('location','') }}" maxlength="160" dir="auto">
+  <label>{{ T.f_date }}</label><input type="date" name="preferred_date" value="{{ form.get('preferred_date','') }}" min="{{ today }}">
+  <div class="hp" aria-hidden="true"><label>Website</label><input name="website" tabindex="-1" autocomplete="off"></div>
+  <p class="muted" style="margin:12px 0 0">{{ p('no_charge') }}</p>
+  <div class="btnrow"><button class="btn" type="submit" style="flex:1">{{ T.send_req }}</button><a class="btn secondary" href="{{ url_for('portal.dashboard', slug=slug) }}">{{ T.cancel }}</a></div>
+</form>
+{% endblock %}

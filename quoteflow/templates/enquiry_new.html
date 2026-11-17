@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ t('New enquiry') }}</h1>
+<p class="muted">Paste the customer's WhatsApp message or email. English, Arabic (Gulf dialect) or mixed all work.</p>
+
+{% if ai_mode() == 'offline' %}
+<div class="flash warn">No AI key is connected, so the built-in rule-based reader is used. It handles common requests; connect an AI key for full accuracy.</div>
+{% endif %}
+
+<form method="post" class="card">
+  <input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+  <label for="text">Customer message</label>
+  <textarea id="text" name="text" style="min-height:170px" maxlength="4000" required placeholder="e.g. Need AC service for three units in Saar tomorrow, one is leaking, send price">{{ text }}</textarea>
+  <div class="muted" style="margin-top:6px">Try an example:
+    <a href="#" class="ex" data-t="Need AC service for three units in Saar tomorrow, one is leaking, send price">English</a> ·
+    <a href="#" class="ex" data-t="السلام عليكم، أبي أنظف ثلاث مكيفات في الجفير بكرة، وواحد يقطر ماي. كم السعر؟ اسمي خالد 36001234">عربي</a> ·
+    <a href="#" class="ex" data-t="Hi bro, need ac service لـ 4 مكيفات في Riffa block 928, مستعجل if possible after 5pm. Thanks Hassan 33445566">Mixed</a> ·
+    <a href="#" class="ex" data-t="Hello, I need deep cleaning for my villa in Janabiyah this Friday. 5 bedrooms. Please send quotation. Sara">Cleaning</a>
+  </div>
+  <div class="notice">The original message is deleted automatically after {{ company.retention_days }} days. The AI only drafts wording and finds details. It never sets prices.</div>
+  <div class="btnrow">
+    <button class="btn" type="submit" {{ 'disabled' if usage.exceeded }}>Extract details</button>
+  </div>
+  {% if usage.exceeded %}<div class="flash error" style="margin-top:10px">Monthly quote limit reached ({{ usage.used }}/{{ usage.limit }}). Upgrade your plan in <a href="{{ url_for('main.settings') }}">Settings</a>.</div>{% endif %}
+</form>
+<script>
+document.querySelectorAll('.ex').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();document.getElementById('text').value=a.dataset.t;});});
+</script>
+{% endblock %}

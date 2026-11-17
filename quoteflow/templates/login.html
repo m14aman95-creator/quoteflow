@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+{% set tab='business' %}{% include '_acct_tabs.html' %}
+<form method="post" class="card">
+  <input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+  <h1 style="margin-top:0">{{ t('Log in') }}</h1>
+  <p class="muted" style="margin-top:-6px">Welcome back. Pick up where you left off.</p>
+  <label>{{ t('Username') }}</label>
+  <input type="text" name="username" required autocomplete="username" autocapitalize="none" spellcheck="false">
+  <label>{{ t('Password') }}</label>
+  <input type="password" name="password" required autocomplete="current-password">
+  <div class="btnrow"><button class="btn" type="submit" style="flex:1">{{ t('Log in') }}</button>
+  <a class="btn secondary" href="{{ url_for('auth.register') }}">{{ t('Create account') }}</a></div>
+</form>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Activity log</h1>
+<p class="muted">Every edit and approval is recorded here (most recent 200).</p>
+<div class="card" style="overflow-x:auto">
+<table>
+  <tr><th>When (UTC)</th><th>Who</th><th>What</th><th>Details</th></tr>
+  {% for r in rows %}
+  <tr><td>{{ r.created_at }}</td><td>{{ r.user_email or '—' }}</td>
+  <td>{{ r.entity }} #{{ r.entity_id or '' }} · {{ r.action }}</td><td class="muted" style="word-break:break-word">{{ r.detail }}</td></tr>
+  {% endfor %}
+</table>
+</div>
+{% endblock %}

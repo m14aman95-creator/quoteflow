@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% from "_icons.html" import icon %}
+{% block content %}
+<div class="hero">
+  <svg class="pattern" width="260" height="200" viewBox="0 0 260 200" fill="none" stroke="#fff" stroke-width="1.2"><circle cx="190" cy="60" r="40"/><circle cx="190" cy="60" r="70"/><circle cx="190" cy="60" r="100"/><circle cx="190" cy="60" r="130"/></svg>
+  <div class="eyebrow">{{ company.name_en }}</div>
+  <h1>{{ t('Turn enquiries into quotes') }}</h1>
+  <p>Paste a customer message and get a draft quote to review, price and approve.</p>
+  <a class="btn" href="{{ ep_url('quotes.new_enquiry') }}">{{ icon('plus', 18) }} {{ t('New enquiry') }}</a>
+</div>
+
+{% if not company.vat_confirmed_at %}
+<div class="flash warn">Finish your <a href="{{ url_for('main.onboarding') }}">company profile</a> (including VAT status) before approving your first quote.</div>
+{% endif %}
+{% if n_services == 0 %}
+<div class="flash warn">Your service catalogue is empty. <a href="{{ ep_url('catalogue.index') }}">Add services</a> so quotes can use your standard descriptions and prices.</div>
+{% endif %}
+
+{% if nav_new_requests %}
+<a class="card reqalert" href="{{ url_for('requests.index', f='new') if False else url_for('requests.index') }}"><span>{{ icon('inbox', 22) }}</span><div><b>{{ nav_new_requests }} customer request{{ '' if nav_new_requests==1 else 's' }} waiting</b><div class="muted">Open the Requests inbox to review {{ 'it' if nav_new_requests==1 else 'them' }}.</div></div></a>
+{% endif %}
+<div class="kpis">
+  <div class="kpi"><div class="ico">{{ icon('doc', 20) }}</div><div class="v">{{ usage.used }}<small>/ {{ usage.limit }}</small></div><div class="l">{{ t('Quotes this month') }}</div></div>
+  <div class="kpi blue"><div class="ico">{{ icon('clock', 20) }}</div><div class="v">{{ open_value|bhd }}<small>BHD</small></div><div class="l">Waiting for a reply</div></div>
+  <div class="kpi green"><div class="ico">{{ icon('wallet', 20) }}</div><div class="v">{{ accepted_value|bhd }}<small>BHD</small></div><div class="l">Won so far</div></div>
+  <div class="kpi gold"><div class="ico">{{ icon('target', 20) }}</div><div class="v">{{ (win_rate|string + '%') if win_rate is not none else '—' }}</div><div class="l">Win rate</div></div>
+</div>
+
+<div class="card">
+  <div style="display:flex;justify-content:space-between;align-items:baseline">
+    <b>{{ t('Plan') }}: {{ plans[company.plan].name }}</b>
+    <span class="muted">{{ usage.used }} / {{ usage.limit }} {{ t('Quotes this month') }}</span>
+  </div>
+  <div class="meter {{ 'full' if usage.exceeded }}" style="margin-top:10px"><span style="width:{{ usage.pct }}%"></span></div>
+  {% if usage.exceeded %}<div class="muted" style="margin-top:8px"><b style="color:var(--bad)">Limit reached. Upgrade your plan in Settings to create more quotes.</b></div>{% endif %}
+</div>
+
+<div class="charts">
+  <div class="card">
+    <div class="sectionhead"><b>Quote pipeline</b><span class="muted">{{ total_n }} total</span></div>
+    {% if total_n %}
+    <div class="donutwrap">
+      <svg class="donut" viewBox="0 0 42 42" role="img" aria-label="Quotes by status">
+        <circle class="bg" cx="21" cy="21" r="15.9155"/>
+        {% for d in donut %}<circle class="seg {{ d.status }}" cx="21" cy="21" r="15.9155" stroke-dasharray="{{ d.pct }} {{ 100 - d.pct }}" stroke-dashoffset="{{ d.offset }}"/>{% endfor %}
+        <text x="21" y="22.5" font-size="8" font-weight="700" fill="#0f172a">{{ total_n }}</text>
+        <text x="21" y="27.5" font-size="2.9" fill="#64748b">quotes</text>
+      </svg>
+      <div class="dlegend">
+        {% for st in STATUSES %}{% if counts[st] %}<div><i class="i-{{ st }}"></i>{{ t(STATUS_LABEL[st]) }}<b>{{ counts[st] }}</b></div>{% endif %}{% endfor %}
+      </div>
+    </div>
+    {% else %}<div class="empty">{{ icon('chart', 36) }}<div>Your pipeline appears here once you create quotes.</div></div>{% endif %}
+  </div>
+  <div class="card">
+    <div class="sectionhead"><b>Quoted value, last 6 months</b><span class="muted">BHD, approved quotes</span></div>
+    <div class="bars">
+      {% for b in bars %}<div class="bar"><em>{{ b.fils|bhd if b.fils else '' }}</em><span class="col {{ 'zero' if not b.fils }}" style="height:{{ b.h if b.fils else 2 }}%"></span></div>{% endfor %}
+    </div>
+    <div class="bar-labels">{% for b in bars %}<span>{{ b.label }}</span>{% endfor %}</div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="sectionhead"><b>{{ t('Recent quotes') }}</b><a href="{{ ep_url('quotes.history') }}" class="muted">View all</a></div>
+  {% if recent %}
+    {% for q in recent %}
+    <a class="qrow" href="/quotes/{{ q.id }}">
+      <span class="avatar">{{ ((q.customer_name or '?')[:1])|upper }}</span>
+      <span class="grow"><b>{{ q.customer_name or '—' }}</b><span class="muted">{{ q.number }} · {{ q.created_at[:10] }}</span></span>
+      <span style="text-align:end"><b class="num">{{ q.total_fils|bhd }} BHD</b><br><span class="chip {{ q.status }}">{{ t(q.status.replace('_','-').capitalize()) }}</span></span>
+    </a>
+    {% endfor %}
+  {% else %}<div class="empty">{{ icon('doc', 36) }}<div>No quotes yet. Start with a new enquiry.</div></div>{% endif %}
+</div>
+{% endblock %}

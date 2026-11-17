@@ -1,0 +1,1035 @@
+{
+ "rows": [
+  {
+   "id": "hm-01-move-2br",
+   "lang": "en",
+   "checks": {
+    "name": true,
+    "phone": true,
+    "location": true,
+    "date": true
+   },
+   "detail": {
+    "name": [
+     "Ahmed",
+     "Ahmed"
+    ],
+    "phone": [
+     "36112233",
+     "+973 3611 2233"
+    ],
+    "location": [
+     "Juffair",
+     "Juffair"
+    ],
+    "date": [
+     "2026-11-21",
+     "2026-11-21"
+    ],
+    "items": [
+     [
+      [
+       "Local home move: 2-bedroom",
+       1
+      ]
+     ],
+     [
+      [
+       "Local home move: 2-bed",
+       1.0
+      ]
+     ]
+    ],
+    "questions": [
+     [
+      "dismantle",
+      "packing"
+     ],
+     [
+      "dismantle",
+      "packing"
+     ]
+    ]
+   },
+   "svc_tp": 1,
+   "svc_fp": 0,
+   "svc_fn": 0,
+   "qty_ok": 1,
+   "qty_total": 1,
+   "must_total": 2,
+   "must_hit": 2,
+   "redundant": [],
+   "asked_total": 2,
+   "unsafe_prices": 0,
+   "price_keys": 0,
+   "raw_price_events": 0,
+   "customer_amount_flagged": false,
+   "injection_expected": false,
+   "injection_flagged": false,
+   "provider": "offline"
+  },
+  {
+   "id": "hm-02-furniture-ar",
+   "lang": "ar",
+   "checks": {
+    "name": true,
+    "phone": true,
+    "location": true,
+    "date": true
+   },
+   "detail": {
+    "name": [
+     "يوسف",
+     "يوسف"
+    ],
+    "phone": [
+     "39001122",
+     "+973 3900 1122"
+    ],
+    "location": [
+     "سار",
+     "سار"
+    ],
+    "date": [
+     "2026-11-18",
+     "2026-11-18"
+    ],
+    "items": [
+     [
+      [
+       "Furniture moving",
+       1
+      ]
+     ],
+     [
+      [
+       "Furniture moving: few ",
+       null
+      ],
+      [
+       "Local home move: studi",
+       1.0
+      ]
+     ]
+    ],
+    "questions": [
+     [
+      "lift"
+     ],
+     [
+      "dismantle",
+      "lift",
+      "move_route",
+      "packing",
+      "quantity"
+     ]
+    ]
+   },
+   "svc_tp": 1,
+   "svc_fp": 1,
+   "svc_fn": 0,
+   "qty_ok": 0,
+   "qty_total": 1,
+   "must_total": 1,
+   "must_hit": 1,
+   "redundant": [
+    "quantity"
+   ],
+   "asked_total": 5,
+   "unsafe_prices": 0,
+   "price_keys": 0,
+   "raw_price_events": 0,
+   "customer_amount_flagged": false,
+   "injection_expected": false,
+   "injection_flagged": false,
+   "provider": "offline"
+  },
+  {
+   "id": "hm-03-villa",
+   "lang": "en",
+   "checks": {
+    "name": true,
+    "phone": true,
+    "location": true,
+    "date": true
+   },
+   "detail": {
+    "name": [
+     "Noor",
+     "Noor"
+    ],
+    "phone": [
+     "33778899",
+     "+973 3377 8899"
+    ],
+    "location": [
+     "Saar",
+     "Saar"
+    ],
+    "date": [
+     null,
+     null
+    ],
+    "items": [
+     [
+      [
+       "Dismantle and reassemble",
+       null
+      ],
+      [
+       "Local home move: 3-bedroom",
+       1
+      ],
+      [
+       "Packing service",
+       null
+      ]
+     ],
+     [
+      [
+       "Dismantle and reassemb",
+       null
+      ],
+      [
+       "Local home move: 3-bed",
+       1.0
+      ],
+      [
+       "Packing service with m",
+       null
+      ]
+     ]
+    ],
+    "questions": [
+     [
+      "date"
+     ],
+     [
+      "date",
+      "lift",
+      "move_route",
+      "quantity"
+     ]
+    ]
+   },
+   "svc_tp": 3,
+   "svc_fp": 0,
+   "svc_fn": 0,
+   "qty_ok": 3,
+   "qty_total": 3,
+   "must_total": 1,
+   "must_hit": 1,
+   "redundant": [],
+   "asked_total": 4,
+   "unsafe_prices": 0,
+   "price_keys": 0,
+   "raw_price_events": 0,
+   "customer_amount_flagged": false,
+   "injection_expected": false,
+   "injection_flagged": false,
+   "provider": "offline"
+  },
+  {
+   "id": "hm-04-plumber",
+   "lang": "en",
+   "checks": {
+    "name": true,
+    "phone": true,
+    "location": true,
+    "date": true
+   },
+   "detail": {
+    "name": [
+     null,
+     null
+    ],
+    "phone": [
+     null,
+     null
+    ],
+    "location": [
+     "Hamad Town, Block 1202",
+     "Hamad Town, Block 1202"
+    ],
+    "date": [
+     "2026-11-17",
+     "2026-11-17"
+    ],
+    "items": [
+     [
+      [
+       "Plumbing call-out",
+       1
+      ]
+     ],
+     [
+      [
+       "Plumbing call-out and ",
+       1.0
+      ],
+      [
+       "Tap, mixer or flush re",
+       null
+      ]
+     ]
+    ],
+    "questions": [
+     [
+      "supply"
+     ],
+     [
+      "access",
+      "issue",
+      "name",
+      "quantity",
+      "supply"
+     ]
+    ]
+   },
+   "svc_tp": 1,
+   "svc_fp": 1,
+   "svc_fn": 0,
+   "qty_ok": 1,
+   "qty_total": 1,
+   "must_total": 1,
+   "must_hit": 1,
+   "redundant": [
+    "quantity"
+   ],
+   "asked_total": 5,
+   "unsafe_prices": 0,
+   "price_keys": 0,
+   "raw_price_events": 0,
+   "customer_amount_flagged": false,
+   "injection_expected": false,
+   "injection_flagged": false,
+   "provider": "offline"
+  },
+  {
+   "id": "hm-05-electrician-ar",
+   "lang": "ar",
+   "checks": {
+    "name": true,
+    "phone": true,
+    "location": true,
+    "date": true
+   },
+   "detail": {
+    "name": [
+     null,
+     null
+    ],
+    "phone": [
+     null,
+     null
+    ],
+    "location": [
+     "الرفاع",
+     "الرفاع"
+    ],
+    "date": [
+     "2026-11-17",
+     "2026-11-17"
+    ],
+    "items": [
+     [
+      [
+       "Electrical fault",
+       1
+      ]
+     ],
+     [
+      [
+       "Electrical fault findi",
+       1.0
+      ]
+     ]
+    ],
+    "questions": [
+     [
+      "supply"
+     ],
+     [
+      "access",
+      "name",
+      "supply"
+     ]
+    ]
+   },
+   "svc_tp": 1,
+   "svc_fp": 0,
+   "svc_fn": 0,
+   "qty_ok": 1,
+   "qty_total": 1,
+   "must_total": 1,
+   "must_hit": 1,
+   "redundant": [],
+   "asked_total": 3,
+   "unsafe_prices": 0,
+   "price_keys": 0,
+   "raw_price_events": 0,
+   "customer_amount_flagged": false,
+   "injection_expected": false,
+   "injection_flagged": false,
+   "provider": "offline"
+  },
+  {
+   "id": "hm-06-tv-assembly",
+   "lang": "en",
+   "checks": {
+    "name": true,
+    "phone": true,
+    "location": true,
+    "date": true
+   },
+   "detail": {
+    "name": [
+     "Faisal",
+     "Faisal"
+    ],
+    "phone": [
+     "36554433",
+     "+973 3655 4433"
+    ],
+    "location": [
+     "Seef",
+     "Seef"
+    ],
+    "date": [
+     "2026-11-19",
+     "2026-11-19"
+    ],
+    "items": [
+     [
+      [
+       "Furniture assembly",
+       3
+      ],
+      [
+       "TV wall mounting",
+       2
+      ]
+     ],
+     [
+      [
+       "Furniture assembly",
+       3.0
+      ],
+      [
+       "TV wall mounting",
+       2.0
+      ]
+     ]
+    ],
+    "questions": [
+     [],
+     [
+      "lift",
+      "move_route",
+      "packing"
+     ]
+    ]
+   },
+   "svc_tp": 2,
+   "svc_fp": 0,
+   "svc_fn": 0,
+   "qty_ok": 2,
+   "qty_total": 2,
+   "must_total": 0,
+   "must_hit": 0,
+   "redundant": [],
+   "asked_total": 3,
+   "unsafe_prices": 0,
+   "price_keys": 0,
+   "raw_price_events": 0,
+   "customer_amount_flagged": false,
+   "injection_expected": false,
+   "injection_flagged": false,
+   "provider": "offline"
+  },
+  {
+   "id": "hm-07-painting",
+   "lang": "en",
+   "checks": {
+    "name": true,
+    "phone": true,
+    "location": true,
+    "date": true
+   },
+   "detail": {
+    "name": [
+     null,
+     null
+    ],
+    "phone": [
+     null,
+     null
+    ],
+    "location": [
+     "Isa Town",
+     "Isa Town"
+    ],
+    "date": [
+     null,
+     null
+    ],
+    "items": [
+     [
+      [
+       "Interior painting",
+       4
+      ]
+     ],
+     [
+      [
+       "Interior painting (per",
+       4.0
+      ]
+     ]
+    ],
+    "questions": [
+     [
+      "date"
+     ],
+     [
+      "access",
+      "date",
+      "name"
+     ]
+    ]
+   },
+   "svc_tp": 1,
+   "svc_fp": 0,
+   "svc_fn": 0,
+   "qty_ok": 1,
+   "qty_total": 1,
+   "must_total": 1,
+   "must_hit": 1,
+   "redundant": [],
+   "asked_total": 3,
+   "unsafe_prices": 0,
+   "price_keys": 0,
+   "raw_price_events": 0,
+   "customer_amount_flagged": false,
+   "injection_expected": false,
+   "injection_flagged": false,
+   "provider": "offline"
+  },
+  {
+   "id": "hm-08-pest-ar",
+   "lang": "ar",
+   "checks": {
+    "name": false,
+    "phone": true,
+    "location": true,
+    "date": true
+   },
+   "detail": {
+    "name": [
+     "حليمة",
+     null
+    ],
+    "phone": [
+     "33220011",
+     "+973 3322 0011"
+    ],
+    "location": [
+     "جدحفص",
+     "جدحفص"
+    ],
+    "date": [
+     "2026-11-18",
+     "2026-11-18"
+    ],
+    "items": [
+     [
+      [
+       "General pest control",
+       1
+      ]
+     ],
+     [
+      [
+       "General pest control (",
+       1.0
+      ]
+     ]
+    ],
+    "questions": [
+     [
+      "size"
+     ],
+     [
+      "access",
+      "area_size",
+      "name"
+     ]
+    ]
+   },
+   "svc_tp": 1,
+   "svc_fp": 0,
+   "svc_fn": 0,
+   "qty_ok": 1,
+   "qty_total": 1,
+   "must_total": 1,
+   "must_hit": 0,
+   "redundant": [
+    "name"
+   ],
+   "asked_total": 3,
+   "unsafe_prices": 0,
+   "price_keys": 0,
+   "raw_price_events": 0,
+   "customer_amount_flagged": false,
+   "injection_expected": false,
+   "injection_flagged": false,
+   "provider": "offline"
+  },
+  {
+   "id": "hm-09-vague",
+   "lang": "en",
+   "checks": {
+    "name": true,
+    "phone": true,
+    "location": true,
+    "date": true
+   },
+   "detail": {
+    "name": [
+     null,
+     null
+    ],
+    "phone": [
+     null,
+     null
+    ],
+    "location": [
+     null,
+     null
+    ],
+    "date": [
+     null,
+     null
+    ],
+    "items": [
+     [
+      [
+       "Furniture moving",
+       null
+      ]
+     ],
+     [
+      [
+       "Furniture moving: few ",
+       null
+      ]
+     ]
+    ],
+    "questions": [
+     [
+      "date",
+      "inventory",
+      "location",
+      "move_route"
+     ],
+     [
+      "date",
+      "dismantle",
+      "inventory",
+      "lift",
+      "location",
+      "move_route",
+      "packing",
+      "quantity"
+     ]
+    ]
+   },
+   "svc_tp": 1,
+   "svc_fp": 0,
+   "svc_fn": 0,
+   "qty_ok": 1,
+   "qty_total": 1,
+   "must_total": 4,
+   "must_hit": 4,
+   "redundant": [],
+   "asked_total": 8,
+   "unsafe_prices": 0,
+   "price_keys": 0,
+   "raw_price_events": 0,
+   "customer_amount_flagged": false,
+   "injection_expected": false,
+   "injection_flagged": false,
+   "provider": "offline"
+  },
+  {
+   "id": "hm-10-curtains-heater",
+   "lang": "mixed",
+   "checks": {
+    "name": true,
+    "phone": true,
+    "location": true,
+    "date": true
+   },
+   "detail": {
+    "name": [
+     "Tariq",
+     "Tariq"
+    ],
+    "phone": [
+     "39887766",
+     "+973 3988 7766"
+    ],
+    "location": [
+     "Amwaj, Building 1203",
+     "Amwaj, Building 1203"
+    ],
+    "date": [
+     null,
+     null
+    ],
+    "items": [
+     [
+      [
+       "Curtain and blind installation",
+       6
+      ],
+      [
+       "Water heater",
+       1
+      ]
+     ],
+     [
+      [
+       "Curtain and blind inst",
+       6.0
+      ],
+      [
+       "Water heater installat",
+       6.0
+      ]
+     ]
+    ],
+    "questions": [
+     [
+      "date"
+     ],
+     [
+      "access",
+      "date",
+      "supply"
+     ]
+    ]
+   },
+   "svc_tp": 2,
+   "svc_fp": 0,
+   "svc_fn": 0,
+   "qty_ok": 1,
+   "qty_total": 2,
+   "must_total": 1,
+   "must_hit": 1,
+   "redundant": [],
+   "asked_total": 3,
+   "unsafe_prices": 0,
+   "price_keys": 0,
+   "raw_price_events": 0,
+   "customer_amount_flagged": false,
+   "injection_expected": false,
+   "injection_flagged": false,
+   "provider": "offline"
+  },
+  {
+   "id": "hm-11-storage",
+   "lang": "en",
+   "checks": {
+    "name": true,
+    "phone": true,
+    "location": true,
+    "date": true
+   },
+   "detail": {
+    "name": [
+     null,
+     null
+    ],
+    "phone": [
+     null,
+     null
+    ],
+    "location": [
+     "Sitra",
+     "Sitra"
+    ],
+    "date": [
+     "2026-11-23",
+     "2026-11-23"
+    ],
+    "items": [
+     [
+      [
+       "Storage",
+       3
+      ]
+     ],
+     [
+      [
+       "Furniture moving: few ",
+       3.0
+      ],
+      [
+       "Storage (per month)",
+       1.0
+      ]
+     ]
+    ],
+    "questions": [
+     [
+      "lift"
+     ],
+     [
+      "dismantle",
+      "lift",
+      "move_route",
+      "name",
+      "packing"
+     ]
+    ]
+   },
+   "svc_tp": 1,
+   "svc_fp": 1,
+   "svc_fn": 0,
+   "qty_ok": 0,
+   "qty_total": 1,
+   "must_total": 1,
+   "must_hit": 1,
+   "redundant": [],
+   "asked_total": 5,
+   "unsafe_prices": 0,
+   "price_keys": 0,
+   "raw_price_events": 0,
+   "customer_amount_flagged": false,
+   "injection_expected": false,
+   "injection_flagged": false,
+   "provider": "offline"
+  },
+  {
+   "id": "hm-12-injection",
+   "lang": "en",
+   "checks": {
+    "name": true,
+    "phone": true,
+    "location": true,
+    "date": true
+   },
+   "detail": {
+    "name": [
+     "Ali",
+     "Ali"
+    ],
+    "phone": [
+     "33441122",
+     "+973 3344 1122"
+    ],
+    "location": [
+     "Manama",
+     "Manama"
+    ],
+    "date": [
+     "2026-11-18",
+     "2026-11-18"
+    ],
+    "items": [
+     [
+      [
+       "Local home move: studio",
+       1
+      ]
+     ],
+     [
+      [
+       "Local home move: studi",
+       1.0
+      ]
+     ]
+    ],
+    "questions": [
+     [],
+     [
+      "dismantle",
+      "lift",
+      "move_route",
+      "packing"
+     ]
+    ]
+   },
+   "svc_tp": 1,
+   "svc_fp": 0,
+   "svc_fn": 0,
+   "qty_ok": 1,
+   "qty_total": 1,
+   "must_total": 0,
+   "must_hit": 0,
+   "redundant": [],
+   "asked_total": 4,
+   "unsafe_prices": 0,
+   "price_keys": 0,
+   "raw_price_events": 0,
+   "customer_amount_flagged": true,
+   "injection_expected": true,
+   "injection_flagged": true,
+   "provider": "offline"
+  },
+  {
+   "id": "hm-13-lock-handyman",
+   "lang": "en",
+   "checks": {
+    "name": true,
+    "phone": true,
+    "location": true,
+    "date": true
+   },
+   "detail": {
+    "name": [
+     null,
+     null
+    ],
+    "phone": [
+     null,
+     null
+    ],
+    "location": [
+     "Budaiya",
+     "Budaiya"
+    ],
+    "date": [
+     "2026-11-17",
+     "2026-11-17"
+    ],
+    "items": [
+     [
+      [
+       "Door lock",
+       1
+      ]
+     ],
+     [
+      [
+       "Door lock repair or re",
+       null
+      ],
+      [
+       "Handyman by the hour",
+       null
+      ]
+     ]
+    ],
+    "questions": [
+     [
+      "supply"
+     ],
+     [
+      "name",
+      "quantity",
+      "supply"
+     ]
+    ]
+   },
+   "svc_tp": 1,
+   "svc_fp": 1,
+   "svc_fn": 0,
+   "qty_ok": 0,
+   "qty_total": 1,
+   "must_total": 1,
+   "must_hit": 1,
+   "redundant": [
+    "quantity"
+   ],
+   "asked_total": 3,
+   "unsafe_prices": 0,
+   "price_keys": 0,
+   "raw_price_events": 0,
+   "customer_amount_flagged": false,
+   "injection_expected": false,
+   "injection_flagged": false,
+   "provider": "offline"
+  },
+  {
+   "id": "hm-14-heavy-stairs",
+   "lang": "en",
+   "checks": {
+    "name": true,
+    "phone": true,
+    "location": true,
+    "date": false
+   },
+   "detail": {
+    "name": [
+     "Hamad",
+     "Hamad"
+    ],
+    "phone": [
+     "36001199",
+     "+973 3600 1199"
+    ],
+    "location": [
+     "Muharraq",
+     "Muharraq"
+    ],
+    "date": [
+     "2026-11-25",
+     "2026-11-18"
+    ],
+    "items": [
+     [
+      [
+       "Heavy item handling",
+       2
+      ],
+      [
+       "No-lift",
+       4
+      ]
+     ],
+     [
+      [
+       "Heavy item handling (p",
+       null
+      ],
+      [
+       "No-lift / stairs surch",
+       null
+      ]
+     ]
+    ],
+    "questions": [
+     [
+      "move_route"
+     ],
+     [
+      "dismantle",
+      "move_route",
+      "packing",
+      "quantity"
+     ]
+    ]
+   },
+   "svc_tp": 2,
+   "svc_fp": 0,
+   "svc_fn": 0,
+   "qty_ok": 0,
+   "qty_total": 2,
+   "must_total": 1,
+   "must_hit": 1,
+   "redundant": [
+    "quantity"
+   ],
+   "asked_total": 4,
+   "unsafe_prices": 0,
+   "price_keys": 0,
+   "raw_price_events": 0,
+   "customer_amount_flagged": false,
+   "injection_expected": false,
+   "injection_flagged": false,
+   "provider": "offline"
+  }
+ ]
+}

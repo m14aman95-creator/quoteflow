@@ -1,0 +1,20 @@
+{% extends "portal_base.html" %}
+{% macro card(r) %}
+<a class="preq" href="{{ url_for('portal.detail', slug=slug, rid=r.id) }}">
+  <div class="top"><b>{{ r.ref }}</b><span class="chip st-{{ r.status }}">{{ T.st[r.status] }}</span></div>
+  <div style="margin-top:4px">{{ r.service_label or (r.details[:70] ~ ('…' if r.details|length > 70 else '')) }}</div>
+  <div class="muted">{{ p('sent_on', date=r.created_at|local) }}{% if r.scheduled_for %} · {{ T.d_sched }}: {{ r.scheduled_for }}{% endif %}</div>
+  {% if r.q_token and r.q_approved and r.status == 'quoted' %}<span class="qr">{{ T.quote_ready }} · {{ r.q_total|bhd }} {{ 'د.ب' if L=='ar' else 'BHD' }}</span>{% endif %}
+</a>
+{% endmacro %}
+{% block content %}
+<div style="display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:12px">
+  <h1 style="margin:0">{{ p('hello', name=cu.name or '') }}</h1>
+  <a class="btn" href="{{ url_for('portal.new_request', slug=slug) }}">{{ T.new_request }}</a>
+</div>
+{% if not open_ and not done %}
+<div class="pt-card" style="text-align:center"><p class="muted">{{ T.no_reqs }}</p><a class="btn" href="{{ url_for('portal.new_request', slug=slug) }}">{{ T.send_first }}</a></div>
+{% endif %}
+{% if open_ %}<h2>{{ T.reqs_open }}</h2>{% for r in open_ %}{{ card(r) }}{% endfor %}{% endif %}
+{% if done %}<h2>{{ T.reqs_done }}</h2>{% for r in done %}{{ card(r) }}{% endfor %}{% endif %}
+{% endblock %}

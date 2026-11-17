@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% from "_icons.html" import icon %}
+{% block content %}
+<p style="margin:0 0 6px"><a href="{{ url_for('requests.index') }}">&larr; Requests</a></p>
+<h1>Customer portal</h1>
+<div class="card">
+  <b>Your customer link</b>
+  <p class="muted" style="margin:4px 0 10px">Put this link or QR code on WhatsApp, Instagram, your website, vehicles and printed flyers. Customers create their own login, send requests and track their quotes. They never see other customers or your prices until you approve a quotation.</p>
+  <div class="portalqr">
+    <div class="qrbox">{% if qr %}{{ qr|safe }}{% else %}<span class="muted">QR unavailable</span>{% endif %}</div>
+    <div style="flex:1;min-width:220px">
+      <div class="linkline"><input id="plink" value="{{ link }}" readonly onclick="this.select()"><button type="button" class="btn small" onclick="var i=document.getElementById('plink');i.select();try{navigator.clipboard.writeText(i.value)}catch(e){document.execCommand('copy')}">Copy</button></div>
+      <div class="btnrow"><a class="btn secondary small" target="_blank" rel="noopener" href="{{ link }}">Open the portal</a>
+      <button class="btn secondary small" type="button" onclick="window.print()">Print QR</button></div>
+      <p class="muted" style="margin-top:12px">{{ n_customers }} customer{{ '' if n_customers==1 else 's' }} with a login so far.</p>
+    </div>
+  </div>
+</div>
+<div class="card">
+  <b>Email for verification codes and quotations</b>
+  {% if mail_ok %}
+    <p class="muted" style="margin:6px 0 0">Email is set up ({{ 'Brevo email API' if mail_method=='api' else 'SMTP' }}). Send yourself a test to be sure it really arrives.</p>
+  {% else %}
+    <p class="muted" style="margin:6px 0 0">Email is not set up on this server, so customers are not verified and quotations cannot be emailed. Add <b>BREVO_API_KEY</b> and <b>MAIL_FROM</b> (works on Render's free plan), or the SMTP settings, in your host's environment variables.</p>
+  {% endif %}
+  {% if mail_ok %}
+  <form method="post" action="{{ url_for('requests.test_email') }}" class="linkline">
+    <input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+    <input type="email" name="to" value="{{ my_email }}" placeholder="your email address" required>
+    <button class="btn secondary small" type="submit">Send test email</button>
+  </form>
+  {% endif %}
+</div>
+<form method="post" class="card">
+  <input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+  <b>Portal address and access</b>
+  <label>Portal address</label>
+  <div class="linkline"><span class="muted" style="white-space:nowrap">{{ link.rsplit('/c/',1)[0] }}/c/</span><input name="slug" value="{{ slug }}" maxlength="40" pattern="[a-z0-9\-]{3,40}" autocapitalize="none" spellcheck="false"></div>
+  <p class="muted" style="margin:6px 0 0">Changing it breaks links you already shared.</p>
+  <label style="display:flex;gap:10px;align-items:center;font-weight:600"><input type="checkbox" name="enabled" value="1" {{ 'checked' if enabled }}> Customers can use the portal</label>
+  <label style="display:flex;gap:10px;align-items:center;font-weight:600"><input type="checkbox" name="verify" value="1" {{ 'checked' if verify_flag }} {{ 'disabled' if not mail_ok }}> Require customers to confirm their email {% if verify_on %}<span class="tag approved">on</span>{% else %}<span class="tag unsure">off</span>{% endif %}</label>
+  <p class="muted" style="margin:4px 0 0">If codes do not arrive, switch this off until your email test works, or customers cannot sign up.</p>
+  <div class="btnrow"><button class="btn" type="submit">Save</button></div>
+</form>
+<div class="card muted">
+  <b style="color:var(--ink)">Good to know</b>
+  <ul style="margin:8px 0 0;padding-inline-start:18px">
+    <li>You approve every quotation before the customer can see it. The AI never sets prices.</li>
+    <li>Customers log in with a mobile number or email and a password. If someone forgets theirs, open their request and use "Reset their password".</li>
+    <li>Emails are confirmed with a 6-digit code. Mobile numbers are not verified (that needs an SMS provider). Treat a new request like any other enquiry and confirm details with the customer.</li>
+  </ul>
+</div>
+{% endblock %}

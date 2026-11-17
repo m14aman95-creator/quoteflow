@@ -1,0 +1,17 @@
+{% extends "portal_base.html" %}
+{% block content %}
+<form method="post" class="pt-card pform">
+  <input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+  <h2>{{ T.account }}</h2>
+  <label>{{ T.name }}</label><input name="name" value="{{ cu.name }}" required maxlength="120">
+  <label>{{ T.phone }}</label><input value="{{ cu.phone }}" disabled dir="ltr" style="text-align:start">
+  <label>{{ T.email_opt }}</label><input type="email" name="email" value="{{ cu.email }}" maxlength="254" dir="ltr" style="text-align:start">
+  <label>{{ T.password }}</label>
+  <input type="password" name="current_password" placeholder="{{ T.password }} (current)" autocomplete="current-password">
+  <input type="password" name="new_password" placeholder="{{ T.password }} (new, {{ T.pw_hint }})" autocomplete="new-password" style="margin-top:8px">
+  <div class="btnrow"><button class="btn" type="submit" style="flex:1">{{ 'Save' if L=='en' else 'حفظ' }}</button></div>
+</form>
+<form method="post" action="{{ url_for('portal.logout', slug=slug) }}" class="pform" style="text-align:center">
+  <input type="hidden" name="_csrf" value="{{ csrf_token() }}"><button class="btn secondary" type="submit">{{ T.logout }}</button>
+</form>
+{% endblock %}

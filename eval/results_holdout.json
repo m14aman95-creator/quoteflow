@@ -1,0 +1,812 @@
+{
+ "rows": [
+  {
+   "id": "h-01-noise-notcooling",
+   "lang": "en",
+   "checks": {
+    "name": true,
+    "phone": true,
+    "location": true,
+    "date": true
+   },
+   "detail": {
+    "name": [
+     null,
+     null
+    ],
+    "phone": [
+     "38887766",
+     "+973 3888 7766"
+    ],
+    "location": [
+     "Zinj",
+     "Zinj"
+    ],
+    "date": [
+     "2026-11-17",
+     "2026-11-17"
+    ],
+    "items": [
+     [
+      [
+       "AC inspection",
+       1
+      ]
+     ],
+     [
+      [
+       "AC inspection / diagno",
+       1.0
+      ]
+     ]
+    ],
+    "questions": [
+     [
+      "ac_type"
+     ],
+     [
+      "ac_type",
+      "name",
+      "parts"
+     ]
+    ]
+   },
+   "svc_tp": 1,
+   "svc_fp": 0,
+   "svc_fn": 0,
+   "qty_ok": 1,
+   "qty_total": 1,
+   "must_total": 1,
+   "must_hit": 1,
+   "redundant": [],
+   "asked_total": 3,
+   "unsafe_prices": 0,
+   "price_keys": 0,
+   "raw_price_events": 0,
+   "customer_amount_flagged": false,
+   "injection_expected": false,
+   "injection_flagged": false,
+   "provider": "offline"
+  },
+  {
+   "id": "h-02-five-acs",
+   "lang": "en",
+   "checks": {
+    "name": true,
+    "phone": true,
+    "location": true,
+    "date": true
+   },
+   "detail": {
+    "name": [
+     "Abu Ali",
+     "Abu Ali"
+    ],
+    "phone": [
+     null,
+     null
+    ],
+    "location": [
+     "Muharraq",
+     "Muharraq"
+    ],
+    "date": [
+     "2026-11-23",
+     "2026-11-23"
+    ],
+    "items": [
+     [
+      [
+       "AC general service",
+       5
+      ]
+     ],
+     [
+      [
+       "AC general service (sp",
+       5.0
+      ]
+     ]
+    ],
+    "questions": [
+     [
+      "ac_type"
+     ],
+     [
+      "ac_type"
+     ]
+    ]
+   },
+   "svc_tp": 1,
+   "svc_fp": 0,
+   "svc_fn": 0,
+   "qty_ok": 1,
+   "qty_total": 1,
+   "must_total": 1,
+   "must_hit": 1,
+   "redundant": [],
+   "asked_total": 1,
+   "unsafe_prices": 0,
+   "price_keys": 0,
+   "raw_price_events": 0,
+   "customer_amount_flagged": false,
+   "injection_expected": false,
+   "injection_flagged": false,
+   "provider": "offline"
+  },
+  {
+   "id": "h-03-install-ar",
+   "lang": "ar",
+   "checks": {
+    "name": true,
+    "phone": true,
+    "location": true,
+    "date": true
+   },
+   "detail": {
+    "name": [
+     null,
+     null
+    ],
+    "phone": [
+     null,
+     null
+    ],
+    "location": [
+     "مدينة حمد",
+     "مدينة حمد"
+    ],
+    "date": [
+     null,
+     null
+    ],
+    "items": [
+     [
+      [
+       "AC installation",
+       2
+      ]
+     ],
+     [
+      [
+       "AC installation (split",
+       2.0
+      ]
+     ]
+    ],
+    "questions": [
+     [
+      "date"
+     ],
+     [
+      "date",
+      "name",
+      "parts"
+     ]
+    ]
+   },
+   "svc_tp": 1,
+   "svc_fp": 0,
+   "svc_fn": 0,
+   "qty_ok": 1,
+   "qty_total": 1,
+   "must_total": 1,
+   "must_hit": 1,
+   "redundant": [],
+   "asked_total": 3,
+   "unsafe_prices": 0,
+   "price_keys": 0,
+   "raw_price_events": 0,
+   "customer_amount_flagged": false,
+   "injection_expected": false,
+   "injection_flagged": false,
+   "provider": "offline"
+  },
+  {
+   "id": "h-04-two-leaking-ar",
+   "lang": "ar",
+   "checks": {
+    "name": false,
+    "phone": true,
+    "location": true,
+    "date": true
+   },
+   "detail": {
+    "name": [
+     "بوسلمان",
+     null
+    ],
+    "phone": [
+     "33221100",
+     "+973 3322 1100"
+    ],
+    "location": [
+     "الرفاع",
+     "الرفاع"
+    ],
+    "date": [
+     "2026-11-18",
+     "2026-11-18"
+    ],
+    "items": [
+     [
+      [
+       "AC water leak",
+       2
+      ]
+     ],
+     [
+      [
+       "AC water leak inspecti",
+       2.0
+      ]
+     ]
+    ],
+    "questions": [
+     [
+      "ac_type"
+     ],
+     [
+      "ac_leak",
+      "ac_type",
+      "name",
+      "parts"
+     ]
+    ]
+   },
+   "svc_tp": 1,
+   "svc_fp": 0,
+   "svc_fn": 0,
+   "qty_ok": 1,
+   "qty_total": 1,
+   "must_total": 1,
+   "must_hit": 1,
+   "redundant": [
+    "name"
+   ],
+   "asked_total": 4,
+   "unsafe_prices": 0,
+   "price_keys": 0,
+   "raw_price_events": 0,
+   "customer_amount_flagged": false,
+   "injection_expected": false,
+   "injection_flagged": false,
+   "provider": "offline"
+  },
+  {
+   "id": "h-05-gas-en",
+   "lang": "en",
+   "checks": {
+    "name": true,
+    "phone": true,
+    "location": true,
+    "date": true
+   },
+   "detail": {
+    "name": [
+     "Mariam",
+     "Mariam"
+    ],
+    "phone": [
+     null,
+     null
+    ],
+    "location": [
+     "Budaiya",
+     "Budaiya"
+    ],
+    "date": [
+     "2026-11-21",
+     "2026-11-21"
+    ],
+    "items": [
+     [
+      [
+       "AC gas refill",
+       1
+      ]
+     ],
+     [
+      [
+       "AC gas refill (up to s",
+       1.0
+      ]
+     ]
+    ],
+    "questions": [
+     [
+      "ac_gas"
+     ],
+     [
+      "ac_gas",
+      "ac_type"
+     ]
+    ]
+   },
+   "svc_tp": 1,
+   "svc_fp": 0,
+   "svc_fn": 0,
+   "qty_ok": 1,
+   "qty_total": 1,
+   "must_total": 1,
+   "must_hit": 1,
+   "redundant": [],
+   "asked_total": 2,
+   "unsafe_prices": 0,
+   "price_keys": 0,
+   "raw_price_events": 0,
+   "customer_amount_flagged": false,
+   "injection_expected": false,
+   "injection_flagged": false,
+   "provider": "offline"
+  },
+  {
+   "id": "h-06-sofa-carpet",
+   "lang": "en",
+   "checks": {
+    "name": true,
+    "phone": true,
+    "location": true,
+    "date": true
+   },
+   "detail": {
+    "name": [
+     null,
+     null
+    ],
+    "phone": [
+     null,
+     null
+    ],
+    "location": [
+     "Adliya",
+     "Adliya"
+    ],
+    "date": [
+     null,
+     null
+    ],
+    "items": [
+     [
+      [
+       "Carpet cleaning",
+       10
+      ],
+      [
+       "Sofa cleaning",
+       2
+      ]
+     ],
+     [
+      [
+       "Carpet cleaning",
+       10.0
+      ],
+      [
+       "Sofa cleaning",
+       2.0
+      ]
+     ]
+    ],
+    "questions": [
+     [
+      "date"
+     ],
+     [
+      "date",
+      "name",
+      "seats",
+      "supplies"
+     ]
+    ]
+   },
+   "svc_tp": 2,
+   "svc_fp": 0,
+   "svc_fn": 0,
+   "qty_ok": 2,
+   "qty_total": 2,
+   "must_total": 1,
+   "must_hit": 1,
+   "redundant": [],
+   "asked_total": 4,
+   "unsafe_prices": 0,
+   "price_keys": 0,
+   "raw_price_events": 0,
+   "customer_amount_flagged": false,
+   "injection_expected": false,
+   "injection_flagged": false,
+   "provider": "offline"
+  },
+  {
+   "id": "h-07-villa-ar-6rooms",
+   "lang": "ar",
+   "checks": {
+    "name": true,
+    "phone": true,
+    "location": true,
+    "date": true
+   },
+   "detail": {
+    "name": [
+     null,
+     null
+    ],
+    "phone": [
+     null,
+     null
+    ],
+    "location": [
+     "البديع",
+     "البديع"
+    ],
+    "date": [
+     null,
+     null
+    ],
+    "items": [
+     [
+      [
+       "Villa deep cleaning",
+       1
+      ]
+     ],
+     []
+    ],
+    "questions": [
+     [
+      "supplies"
+     ],
+     [
+      "name",
+      "service",
+      "supplies"
+     ]
+    ]
+   },
+   "svc_tp": 0,
+   "svc_fp": 0,
+   "svc_fn": 1,
+   "qty_ok": 0,
+   "qty_total": 0,
+   "must_total": 1,
+   "must_hit": 1,
+   "redundant": [],
+   "asked_total": 3,
+   "unsafe_prices": 0,
+   "price_keys": 0,
+   "raw_price_events": 0,
+   "customer_amount_flagged": false,
+   "injection_expected": false,
+   "injection_flagged": false,
+   "provider": "offline"
+  },
+  {
+   "id": "h-08-hourly-house",
+   "lang": "en",
+   "checks": {
+    "name": true,
+    "phone": true,
+    "location": true,
+    "date": false
+   },
+   "detail": {
+    "name": [
+     "Mona",
+     "Mona"
+    ],
+    "phone": [
+     "39001122",
+     "+973 3900 1122"
+    ],
+    "location": [
+     "Saar",
+     "Saar"
+    ],
+    "date": [
+     null,
+     "2026-11-22"
+    ],
+    "items": [
+     [
+      [
+       "Regular home cleaning",
+       1
+      ]
+     ],
+     [
+      [
+       "Cleaner by the hour",
+       4.0
+      ]
+     ]
+    ],
+    "questions": [
+     [
+      "supplies"
+     ],
+     [
+      "supplies"
+     ]
+    ]
+   },
+   "svc_tp": 0,
+   "svc_fp": 1,
+   "svc_fn": 1,
+   "qty_ok": 0,
+   "qty_total": 0,
+   "must_total": 1,
+   "must_hit": 1,
+   "redundant": [],
+   "asked_total": 1,
+   "unsafe_prices": 0,
+   "price_keys": 0,
+   "raw_price_events": 0,
+   "customer_amount_flagged": false,
+   "injection_expected": false,
+   "injection_flagged": false,
+   "provider": "offline"
+  },
+  {
+   "id": "h-09-move-in",
+   "lang": "en",
+   "checks": {
+    "name": true,
+    "phone": true,
+    "location": true,
+    "date": true
+   },
+   "detail": {
+    "name": [
+     "Ali Hassan",
+     "Ali Hassan"
+    ],
+    "phone": [
+     "36665544",
+     "+973 3666 5544"
+    ],
+    "location": [
+     "Seef",
+     "Seef"
+    ],
+    "date": [
+     "2026-12-01",
+     "2026-12-01"
+    ],
+    "items": [
+     [
+      [
+       "Move-in",
+       1
+      ]
+     ],
+     [
+      [
+       "Move-in / move-out cle",
+       1.0
+      ]
+     ]
+    ],
+    "questions": [
+     [
+      "supplies"
+     ],
+     [
+      "area_size",
+      "supplies"
+     ]
+    ]
+   },
+   "svc_tp": 1,
+   "svc_fp": 0,
+   "svc_fn": 0,
+   "qty_ok": 1,
+   "qty_total": 1,
+   "must_total": 1,
+   "must_hit": 1,
+   "redundant": [],
+   "asked_total": 2,
+   "unsafe_prices": 0,
+   "price_keys": 0,
+   "raw_price_events": 0,
+   "customer_amount_flagged": false,
+   "injection_expected": false,
+   "injection_flagged": false,
+   "provider": "offline"
+  },
+  {
+   "id": "h-10-chatter",
+   "lang": "en",
+   "checks": {
+    "name": true,
+    "phone": true,
+    "location": true,
+    "date": true
+   },
+   "detail": {
+    "name": [
+     null,
+     null
+    ],
+    "phone": [
+     null,
+     null
+    ],
+    "location": [
+     null,
+     null
+    ],
+    "date": [
+     null,
+     null
+    ],
+    "items": [
+     [],
+     []
+    ],
+    "questions": [
+     [
+      "service"
+     ],
+     [
+      "date",
+      "location",
+      "name",
+      "service"
+     ]
+    ]
+   },
+   "svc_tp": 0,
+   "svc_fp": 0,
+   "svc_fn": 0,
+   "qty_ok": 0,
+   "qty_total": 0,
+   "must_total": 1,
+   "must_hit": 1,
+   "redundant": [],
+   "asked_total": 4,
+   "unsafe_prices": 0,
+   "price_keys": 0,
+   "raw_price_events": 0,
+   "customer_amount_flagged": false,
+   "injection_expected": false,
+   "injection_flagged": false,
+   "provider": "offline"
+  },
+  {
+   "id": "h-11-injection-mixed",
+   "lang": "mixed",
+   "checks": {
+    "name": true,
+    "phone": true,
+    "location": true,
+    "date": true
+   },
+   "detail": {
+    "name": [
+     null,
+     null
+    ],
+    "phone": [
+     null,
+     null
+    ],
+    "location": [
+     "Hidd",
+     "Hidd"
+    ],
+    "date": [
+     "2026-11-18",
+     "2026-11-18"
+    ],
+    "items": [
+     [
+      [
+       "AC general service",
+       2
+      ]
+     ],
+     [
+      [
+       "AC general service (sp",
+       2.0
+      ]
+     ]
+    ],
+    "questions": [
+     [
+      "ac_type"
+     ],
+     [
+      "ac_type",
+      "name"
+     ]
+    ]
+   },
+   "svc_tp": 1,
+   "svc_fp": 0,
+   "svc_fn": 0,
+   "qty_ok": 1,
+   "qty_total": 1,
+   "must_total": 1,
+   "must_hit": 1,
+   "redundant": [],
+   "asked_total": 2,
+   "unsafe_prices": 0,
+   "price_keys": 0,
+   "raw_price_events": 0,
+   "customer_amount_flagged": true,
+   "injection_expected": true,
+   "injection_flagged": true,
+   "provider": "offline"
+  },
+  {
+   "id": "h-12-customer-price",
+   "lang": "en",
+   "checks": {
+    "name": true,
+    "phone": true,
+    "location": true,
+    "date": true
+   },
+   "detail": {
+    "name": [
+     null,
+     null
+    ],
+    "phone": [
+     null,
+     null
+    ],
+    "location": [
+     "Tubli",
+     "Tubli"
+    ],
+    "date": [
+     null,
+     null
+    ],
+    "items": [
+     [
+      [
+       "AC general service",
+       3
+      ]
+     ],
+     [
+      [
+       "AC general service (sp",
+       3.0
+      ]
+     ]
+    ],
+    "questions": [
+     [
+      "ac_type",
+      "date"
+     ],
+     [
+      "ac_type",
+      "date",
+      "name"
+     ]
+    ]
+   },
+   "svc_tp": 1,
+   "svc_fp": 0,
+   "svc_fn": 0,
+   "qty_ok": 1,
+   "qty_total": 1,
+   "must_total": 2,
+   "must_hit": 2,
+   "redundant": [],
+   "asked_total": 3,
+   "unsafe_prices": 0,
+   "price_keys": 0,
+   "raw_price_events": 0,
+   "customer_amount_flagged": true,
+   "injection_expected": false,
+   "injection_flagged": false,
+   "provider": "offline"
+  }
+ ]
+}

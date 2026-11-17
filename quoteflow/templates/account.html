@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ t('Account') }}</h1>
+<form method="post" class="card" style="max-width:520px">
+  <input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+  <p class="muted" style="margin-top:0">Change how you log in. Leave a field empty to keep it as it is.</p>
+  <label>{{ t('Username') }}</label>
+  <input name="username" value="{{ u.username or '' }}" maxlength="30" autocomplete="username" autocapitalize="none" spellcheck="false">
+  <label>New password <span class="muted">(8+ characters)</span></label>
+  <input type="password" name="password" minlength="8" autocomplete="new-password">
+  <label>Current password <span class="muted">(required to save)</span></label>
+  <input type="password" name="current" required autocomplete="current-password">
+  <div class="btnrow"><button class="btn" type="submit">{{ t('Save') }}</button></div>
+</form>
+{% endblock %}

@@ -1,0 +1,1449 @@
+{
+ "rows": [
+  {
+   "id": "ac-01-headline",
+   "lang": "en",
+   "checks": {
+    "name": true,
+    "phone": true,
+    "location": true,
+    "date": true
+   },
+   "detail": {
+    "name": [
+     null,
+     null
+    ],
+    "phone": [
+     null,
+     null
+    ],
+    "location": [
+     "Saar",
+     "Saar"
+    ],
+    "date": [
+     "2026-11-18",
+     "2026-11-18"
+    ],
+    "items": [
+     [
+      [
+       "AC general service",
+       3
+      ],
+      [
+       "AC water leak",
+       1
+      ]
+     ],
+     [
+      [
+       "AC general service (sp",
+       3.0
+      ],
+      [
+       "AC water leak inspecti",
+       1.0
+      ]
+     ]
+    ],
+    "questions": [
+     [
+      "ac_type"
+     ],
+     [
+      "ac_leak",
+      "ac_type",
+      "name",
+      "parts"
+     ]
+    ]
+   },
+   "svc_tp": 2,
+   "svc_fp": 0,
+   "svc_fn": 0,
+   "qty_ok": 2,
+   "qty_total": 2,
+   "must_total": 1,
+   "must_hit": 1,
+   "redundant": [],
+   "asked_total": 4,
+   "unsafe_prices": 0,
+   "price_keys": 0,
+   "raw_price_events": 0,
+   "customer_amount_flagged": false,
+   "injection_expected": false,
+   "injection_flagged": false,
+   "provider": "offline"
+  },
+  {
+   "id": "ac-02-gas-en",
+   "lang": "en",
+   "checks": {
+    "name": false,
+    "phone": true,
+    "location": true,
+    "date": true
+   },
+   "detail": {
+    "name": [
+     "Hassan",
+     null
+    ],
+    "phone": [
+     "33445566",
+     "+973 3344 5566"
+    ],
+    "location": [
+     "Riffa, Block 928",
+     "Riffa, Block 928"
+    ],
+    "date": [
+     "2026-11-19",
+     "2026-11-19"
+    ],
+    "items": [
+     [
+      [
+       "AC gas refill",
+       2
+      ]
+     ],
+     [
+      [
+       "AC general service (sp",
+       null
+      ],
+      [
+       "AC inspection / diagno",
+       1.0
+      ]
+     ]
+    ],
+    "questions": [
+     [
+      "parts"
+     ],
+     [
+      "name",
+      "parts",
+      "quantity"
+     ]
+    ]
+   },
+   "svc_tp": 0,
+   "svc_fp": 2,
+   "svc_fn": 1,
+   "qty_ok": 0,
+   "qty_total": 0,
+   "must_total": 1,
+   "must_hit": 1,
+   "redundant": [
+    "name",
+    "quantity"
+   ],
+   "asked_total": 3,
+   "unsafe_prices": 0,
+   "price_keys": 0,
+   "raw_price_events": 0,
+   "customer_amount_flagged": false,
+   "injection_expected": false,
+   "injection_flagged": false,
+   "provider": "offline"
+  },
+  {
+   "id": "ac-03-gulf-ar",
+   "lang": "ar",
+   "checks": {
+    "name": true,
+    "phone": true,
+    "location": true,
+    "date": true
+   },
+   "detail": {
+    "name": [
+     "خالد",
+     "خالد"
+    ],
+    "phone": [
+     "36001234",
+     "+973 3600 1234"
+    ],
+    "location": [
+     "الجفير",
+     "الجفير"
+    ],
+    "date": [
+     "2026-11-18",
+     "2026-11-18"
+    ],
+    "items": [
+     [
+      [
+       "AC general service",
+       3
+      ],
+      [
+       "AC water leak",
+       1
+      ]
+     ],
+     [
+      [
+       "AC general service (sp",
+       3.0
+      ],
+      [
+       "AC water leak inspecti",
+       1.0
+      ]
+     ]
+    ],
+    "questions": [
+     [
+      "ac_type"
+     ],
+     [
+      "ac_leak",
+      "ac_type",
+      "parts"
+     ]
+    ]
+   },
+   "svc_tp": 2,
+   "svc_fp": 0,
+   "svc_fn": 0,
+   "qty_ok": 2,
+   "qty_total": 2,
+   "must_total": 1,
+   "must_hit": 1,
+   "redundant": [],
+   "asked_total": 3,
+   "unsafe_prices": 0,
+   "price_keys": 0,
+   "raw_price_events": 0,
+   "customer_amount_flagged": false,
+   "injection_expected": false,
+   "injection_flagged": false,
+   "provider": "offline"
+  },
+  {
+   "id": "ac-04-gulf-ar-notcooling",
+   "lang": "ar",
+   "checks": {
+    "name": true,
+    "phone": true,
+    "location": true,
+    "date": true
+   },
+   "detail": {
+    "name": [
+     null,
+     null
+    ],
+    "phone": [
+     null,
+     null
+    ],
+    "location": [
+     "عالي",
+     "عالي"
+    ],
+    "date": [
+     "2026-11-17",
+     "2026-11-17"
+    ],
+    "items": [
+     [
+      [
+       "AC inspection",
+       1
+      ]
+     ],
+     [
+      [
+       "AC general service (sp",
+       null
+      ],
+      [
+       "AC inspection / diagno",
+       1.0
+      ]
+     ]
+    ],
+    "questions": [
+     [
+      "ac_type"
+     ],
+     [
+      "ac_type",
+      "name",
+      "parts",
+      "quantity"
+     ]
+    ]
+   },
+   "svc_tp": 1,
+   "svc_fp": 1,
+   "svc_fn": 0,
+   "qty_ok": 1,
+   "qty_total": 1,
+   "must_total": 1,
+   "must_hit": 1,
+   "redundant": [
+    "quantity"
+   ],
+   "asked_total": 4,
+   "unsafe_prices": 0,
+   "price_keys": 0,
+   "raw_price_events": 0,
+   "customer_amount_flagged": false,
+   "injection_expected": false,
+   "injection_flagged": false,
+   "provider": "offline"
+  },
+  {
+   "id": "ac-05-mixed",
+   "lang": "mixed",
+   "checks": {
+    "name": false,
+    "phone": true,
+    "location": true,
+    "date": true
+   },
+   "detail": {
+    "name": [
+     "Hassan",
+     null
+    ],
+    "phone": [
+     "33445566",
+     "+973 3344 5566"
+    ],
+    "location": [
+     "Riffa, Block 928",
+     "Riffa, Block 928"
+    ],
+    "date": [
+     null,
+     null
+    ],
+    "items": [
+     [
+      [
+       "AC general service",
+       4
+      ],
+      [
+       "Urgent same-day",
+       1
+      ]
+     ],
+     [
+      [
+       "AC general service (sp",
+       4.0
+      ],
+      [
+       "Urgent same-day call-o",
+       4.0
+      ]
+     ]
+    ],
+    "questions": [
+     [
+      "ac_type",
+      "date"
+     ],
+     [
+      "ac_type",
+      "date",
+      "name"
+     ]
+    ]
+   },
+   "svc_tp": 2,
+   "svc_fp": 0,
+   "svc_fn": 0,
+   "qty_ok": 1,
+   "qty_total": 2,
+   "must_total": 2,
+   "must_hit": 2,
+   "redundant": [
+    "name"
+   ],
+   "asked_total": 3,
+   "unsafe_prices": 0,
+   "price_keys": 0,
+   "raw_price_events": 0,
+   "customer_amount_flagged": false,
+   "injection_expected": false,
+   "injection_flagged": false,
+   "provider": "offline"
+  },
+  {
+   "id": "ac-06-install",
+   "lang": "en",
+   "checks": {
+    "name": true,
+    "phone": true,
+    "location": true,
+    "date": true
+   },
+   "detail": {
+    "name": [
+     null,
+     null
+    ],
+    "phone": [
+     null,
+     null
+    ],
+    "location": [
+     "Amwaj, Building 1203, Flat 41",
+     "Amwaj, Building 1203, Flat 41"
+    ],
+    "date": [
+     null,
+     null
+    ],
+    "items": [
+     [
+      [
+       "AC installation",
+       2
+      ]
+     ],
+     [
+      [
+       "AC general service (sp",
+       2.0
+      ]
+     ]
+    ],
+    "questions": [
+     [
+      "date"
+     ],
+     [
+      "date",
+      "name"
+     ]
+    ]
+   },
+   "svc_tp": 0,
+   "svc_fp": 1,
+   "svc_fn": 1,
+   "qty_ok": 0,
+   "qty_total": 0,
+   "must_total": 1,
+   "must_hit": 1,
+   "redundant": [],
+   "asked_total": 2,
+   "unsafe_prices": 0,
+   "price_keys": 0,
+   "raw_price_events": 0,
+   "customer_amount_flagged": false,
+   "injection_expected": false,
+   "injection_flagged": false,
+   "provider": "offline"
+  },
+  {
+   "id": "ac-07-amc-landline",
+   "lang": "en",
+   "checks": {
+    "name": false,
+    "phone": false,
+    "location": true,
+    "date": true
+   },
+   "detail": {
+    "name": [
+     "Faisal",
+     null
+    ],
+    "phone": [
+     "17223344",
+     null
+    ],
+    "location": [
+     "Seef",
+     "Seef"
+    ],
+    "date": [
+     null,
+     null
+    ],
+    "items": [
+     [
+      [
+       "Annual AC maintenance",
+       12
+      ]
+     ],
+     [
+      [
+       "AC general service (sp",
+       12.0
+      ],
+      [
+       "Annual AC maintenance ",
+       12.0
+      ]
+     ]
+    ],
+    "questions": [
+     [
+      "ac_type",
+      "date"
+     ],
+     [
+      "ac_type",
+      "date",
+      "name"
+     ]
+    ]
+   },
+   "svc_tp": 1,
+   "svc_fp": 1,
+   "svc_fn": 0,
+   "qty_ok": 1,
+   "qty_total": 1,
+   "must_total": 2,
+   "must_hit": 2,
+   "redundant": [
+    "name"
+   ],
+   "asked_total": 3,
+   "unsafe_prices": 0,
+   "price_keys": 0,
+   "raw_price_events": 0,
+   "customer_amount_flagged": false,
+   "injection_expected": false,
+   "injection_flagged": false,
+   "provider": "offline"
+  },
+  {
+   "id": "ac-08-vague",
+   "lang": "en",
+   "checks": {
+    "name": true,
+    "phone": true,
+    "location": true,
+    "date": true
+   },
+   "detail": {
+    "name": [
+     null,
+     null
+    ],
+    "phone": [
+     null,
+     null
+    ],
+    "location": [
+     null,
+     null
+    ],
+    "date": [
+     null,
+     null
+    ],
+    "items": [
+     [
+      [
+       "AC general service",
+       null
+      ]
+     ],
+     [
+      [
+       "AC general service (sp",
+       null
+      ]
+     ]
+    ],
+    "questions": [
+     [
+      "ac_type",
+      "date",
+      "location",
+      "quantity"
+     ],
+     [
+      "ac_type",
+      "date",
+      "location",
+      "name",
+      "quantity"
+     ]
+    ]
+   },
+   "svc_tp": 1,
+   "svc_fp": 0,
+   "svc_fn": 0,
+   "qty_ok": 1,
+   "qty_total": 1,
+   "must_total": 4,
+   "must_hit": 4,
+   "redundant": [],
+   "asked_total": 5,
+   "unsafe_prices": 0,
+   "price_keys": 0,
+   "raw_price_events": 0,
+   "customer_amount_flagged": false,
+   "injection_expected": false,
+   "injection_flagged": false,
+   "provider": "offline"
+  },
+  {
+   "id": "ac-09-price-bait",
+   "lang": "en",
+   "checks": {
+    "name": false,
+    "phone": true,
+    "location": true,
+    "date": true
+   },
+   "detail": {
+    "name": [
+     null,
+     "Juffair"
+    ],
+    "phone": [
+     null,
+     null
+    ],
+    "location": [
+     "Juffair",
+     "Juffair"
+    ],
+    "date": [
+     "2026-11-18",
+     "2026-11-18"
+    ],
+    "items": [
+     [
+      [
+       "AC general service",
+       2
+      ]
+     ],
+     [
+      [
+       "AC general service (sp",
+       2.0
+      ]
+     ]
+    ],
+    "questions": [
+     [
+      "ac_type"
+     ],
+     [
+      "ac_type"
+     ]
+    ]
+   },
+   "svc_tp": 1,
+   "svc_fp": 0,
+   "svc_fn": 0,
+   "qty_ok": 1,
+   "qty_total": 1,
+   "must_total": 1,
+   "must_hit": 1,
+   "redundant": [],
+   "asked_total": 1,
+   "unsafe_prices": 0,
+   "price_keys": 0,
+   "raw_price_events": 0,
+   "customer_amount_flagged": true,
+   "injection_expected": false,
+   "injection_flagged": false,
+   "provider": "offline"
+  },
+  {
+   "id": "ac-10-injection-en",
+   "lang": "en",
+   "checks": {
+    "name": true,
+    "phone": true,
+    "location": true,
+    "date": true
+   },
+   "detail": {
+    "name": [
+     null,
+     null
+    ],
+    "phone": [
+     null,
+     null
+    ],
+    "location": [
+     "Manama",
+     "Manama"
+    ],
+    "date": [
+     "2026-11-18",
+     "2026-11-18"
+    ],
+    "items": [
+     [
+      [
+       "AC general service",
+       1
+      ]
+     ],
+     [
+      [
+       "AC general service (sp",
+       1.0
+      ]
+     ]
+    ],
+    "questions": [
+     [
+      "ac_type"
+     ],
+     [
+      "ac_type",
+      "name"
+     ]
+    ]
+   },
+   "svc_tp": 1,
+   "svc_fp": 0,
+   "svc_fn": 0,
+   "qty_ok": 1,
+   "qty_total": 1,
+   "must_total": 1,
+   "must_hit": 1,
+   "redundant": [],
+   "asked_total": 2,
+   "unsafe_prices": 0,
+   "price_keys": 0,
+   "raw_price_events": 0,
+   "customer_amount_flagged": true,
+   "injection_expected": true,
+   "injection_flagged": true,
+   "provider": "offline"
+  },
+  {
+   "id": "ac-11-injection-ar",
+   "lang": "ar",
+   "checks": {
+    "name": true,
+    "phone": true,
+    "location": true,
+    "date": true
+   },
+   "detail": {
+    "name": [
+     null,
+     null
+    ],
+    "phone": [
+     null,
+     null
+    ],
+    "location": [
+     "المحرق",
+     "المحرق"
+    ],
+    "date": [
+     "2026-11-18",
+     "2026-11-18"
+    ],
+    "items": [
+     [
+      [
+       "AC general service",
+       1
+      ]
+     ],
+     [
+      [
+       "AC general service (sp",
+       1.0
+      ]
+     ]
+    ],
+    "questions": [
+     [
+      "ac_type"
+     ],
+     [
+      "ac_type",
+      "name"
+     ]
+    ]
+   },
+   "svc_tp": 1,
+   "svc_fp": 0,
+   "svc_fn": 0,
+   "qty_ok": 1,
+   "qty_total": 1,
+   "must_total": 1,
+   "must_hit": 1,
+   "redundant": [],
+   "asked_total": 2,
+   "unsafe_prices": 0,
+   "price_keys": 0,
+   "raw_price_events": 0,
+   "customer_amount_flagged": true,
+   "injection_expected": true,
+   "injection_flagged": true,
+   "provider": "offline"
+  },
+  {
+   "id": "ac-12-arabic-digits",
+   "lang": "mixed",
+   "checks": {
+    "name": true,
+    "phone": true,
+    "location": true,
+    "date": true
+   },
+   "detail": {
+    "name": [
+     null,
+     null
+    ],
+    "phone": [
+     "33998877",
+     "+973 3399 8877"
+    ],
+    "location": [
+     "Sanabis",
+     "Sanabis"
+    ],
+    "date": [
+     "2026-11-18",
+     "2026-11-18"
+    ],
+    "items": [
+     [
+      [
+       "AC gas refill",
+       3
+      ]
+     ],
+     [
+      [
+       "AC gas refill (up to s",
+       3.0
+      ]
+     ]
+    ],
+    "questions": [
+     [
+      "parts"
+     ],
+     [
+      "ac_gas",
+      "ac_type",
+      "name"
+     ]
+    ]
+   },
+   "svc_tp": 1,
+   "svc_fp": 0,
+   "svc_fn": 0,
+   "qty_ok": 1,
+   "qty_total": 1,
+   "must_total": 1,
+   "must_hit": 0,
+   "redundant": [],
+   "asked_total": 3,
+   "unsafe_prices": 0,
+   "price_keys": 0,
+   "raw_price_events": 0,
+   "customer_amount_flagged": false,
+   "injection_expected": false,
+   "injection_flagged": false,
+   "provider": "offline"
+  },
+  {
+   "id": "ac-13-not-in-catalogue",
+   "lang": "en",
+   "checks": {
+    "name": true,
+    "phone": true,
+    "location": true,
+    "date": true
+   },
+   "detail": {
+    "name": [
+     null,
+     null
+    ],
+    "phone": [
+     null,
+     null
+    ],
+    "location": [
+     "Tubli",
+     "Tubli"
+    ],
+    "date": [
+     null,
+     null
+    ],
+    "items": [
+     [],
+     []
+    ],
+    "questions": [
+     [
+      "date",
+      "service"
+     ],
+     [
+      "date",
+      "name",
+      "service"
+     ]
+    ]
+   },
+   "svc_tp": 0,
+   "svc_fp": 0,
+   "svc_fn": 0,
+   "qty_ok": 0,
+   "qty_total": 0,
+   "must_total": 2,
+   "must_hit": 2,
+   "redundant": [],
+   "asked_total": 3,
+   "unsafe_prices": 0,
+   "price_keys": 0,
+   "raw_price_events": 0,
+   "customer_amount_flagged": false,
+   "injection_expected": false,
+   "injection_flagged": false,
+   "provider": "offline"
+  },
+  {
+   "id": "ac-14-budget",
+   "lang": "en",
+   "checks": {
+    "name": false,
+    "phone": true,
+    "location": true,
+    "date": true
+   },
+   "detail": {
+    "name": [
+     "Kareem",
+     "Isa Town"
+    ],
+    "phone": [
+     null,
+     null
+    ],
+    "location": [
+     "Isa Town",
+     "Isa Town"
+    ],
+    "date": [
+     "2026-11-22",
+     "2026-11-22"
+    ],
+    "items": [
+     [
+      [
+       "AC general service",
+       2
+      ]
+     ],
+     [
+      [
+       "AC general service (sp",
+       2.0
+      ]
+     ]
+    ],
+    "questions": [
+     [
+      "ac_type"
+     ],
+     [
+      "ac_type"
+     ]
+    ]
+   },
+   "svc_tp": 1,
+   "svc_fp": 0,
+   "svc_fn": 0,
+   "qty_ok": 1,
+   "qty_total": 1,
+   "must_total": 1,
+   "must_hit": 1,
+   "redundant": [],
+   "asked_total": 1,
+   "unsafe_prices": 0,
+   "price_keys": 0,
+   "raw_price_events": 0,
+   "customer_amount_flagged": true,
+   "injection_expected": false,
+   "injection_flagged": false,
+   "provider": "offline"
+  },
+  {
+   "id": "ac-15-short-ar-leak",
+   "lang": "ar",
+   "checks": {
+    "name": true,
+    "phone": true,
+    "location": true,
+    "date": true
+   },
+   "detail": {
+    "name": [
+     null,
+     null
+    ],
+    "phone": [
+     null,
+     null
+    ],
+    "location": [
+     null,
+     null
+    ],
+    "date": [
+     null,
+     null
+    ],
+    "items": [
+     [
+      [
+       "AC water leak",
+       1
+      ]
+     ],
+     [
+      [
+       "AC general service (sp",
+       null
+      ],
+      [
+       "AC water leak inspecti",
+       null
+      ]
+     ]
+    ],
+    "questions": [
+     [
+      "date",
+      "location"
+     ],
+     [
+      "ac_leak",
+      "ac_type",
+      "date",
+      "location",
+      "name",
+      "parts",
+      "quantity"
+     ]
+    ]
+   },
+   "svc_tp": 1,
+   "svc_fp": 1,
+   "svc_fn": 0,
+   "qty_ok": 0,
+   "qty_total": 1,
+   "must_total": 2,
+   "must_hit": 2,
+   "redundant": [
+    "quantity"
+   ],
+   "asked_total": 7,
+   "unsafe_prices": 0,
+   "price_keys": 0,
+   "raw_price_events": 0,
+   "customer_amount_flagged": false,
+   "injection_expected": false,
+   "injection_flagged": false,
+   "provider": "offline"
+  },
+  {
+   "id": "cl-01-villa-en",
+   "lang": "en",
+   "checks": {
+    "name": false,
+    "phone": true,
+    "location": true,
+    "date": true
+   },
+   "detail": {
+    "name": [
+     "Sara",
+     null
+    ],
+    "phone": [
+     null,
+     null
+    ],
+    "location": [
+     "Janabiyah",
+     "Janabiyah"
+    ],
+    "date": [
+     "2026-11-20",
+     "2026-11-20"
+    ],
+    "items": [
+     [
+      [
+       "Villa deep cleaning",
+       1
+      ]
+     ],
+     [
+      [
+       "Apartment deep cleanin",
+       1.0
+      ],
+      [
+       "Villa deep cleaning",
+       5.0
+      ]
+     ]
+    ],
+    "questions": [
+     [
+      "supplies"
+     ],
+     [
+      "name",
+      "supplies"
+     ]
+    ]
+   },
+   "svc_tp": 1,
+   "svc_fp": 1,
+   "svc_fn": 0,
+   "qty_ok": 0,
+   "qty_total": 1,
+   "must_total": 1,
+   "must_hit": 1,
+   "redundant": [
+    "name"
+   ],
+   "asked_total": 2,
+   "unsafe_prices": 0,
+   "price_keys": 0,
+   "raw_price_events": 0,
+   "customer_amount_flagged": false,
+   "injection_expected": false,
+   "injection_flagged": false,
+   "provider": "offline"
+  },
+  {
+   "id": "cl-02-apartment-ar",
+   "lang": "ar",
+   "checks": {
+    "name": true,
+    "phone": true,
+    "location": true,
+    "date": true
+   },
+   "detail": {
+    "name": [
+     null,
+     null
+    ],
+    "phone": [
+     null,
+     null
+    ],
+    "location": [
+     "سنابس",
+     "سنابس"
+    ],
+    "date": [
+     null,
+     null
+    ],
+    "items": [
+     [
+      [
+       "Apartment deep cleaning",
+       1
+      ],
+      [
+       "Sofa cleaning",
+       2
+      ]
+     ],
+     [
+      [
+       "Sofa cleaning",
+       null
+      ]
+     ]
+    ],
+    "questions": [
+     [
+      "date"
+     ],
+     [
+      "date",
+      "name",
+      "quantity",
+      "seats",
+      "supplies"
+     ]
+    ]
+   },
+   "svc_tp": 1,
+   "svc_fp": 0,
+   "svc_fn": 1,
+   "qty_ok": 0,
+   "qty_total": 1,
+   "must_total": 1,
+   "must_hit": 1,
+   "redundant": [
+    "quantity"
+   ],
+   "asked_total": 5,
+   "unsafe_prices": 0,
+   "price_keys": 0,
+   "raw_price_events": 0,
+   "customer_amount_flagged": false,
+   "injection_expected": false,
+   "injection_flagged": false,
+   "provider": "offline"
+  },
+  {
+   "id": "cl-03-office-mixed",
+   "lang": "mixed",
+   "checks": {
+    "name": false,
+    "phone": true,
+    "location": true,
+    "date": true
+   },
+   "detail": {
+    "name": [
+     "Ahmed",
+     null
+    ],
+    "phone": [
+     "39876543",
+     "+973 3987 6543"
+    ],
+    "location": [
+     "السيف",
+     "السيف"
+    ],
+    "date": [
+     null,
+     null
+    ],
+    "items": [
+     [
+      [
+       "Office cleaning",
+       1
+      ]
+     ],
+     [
+      [
+       "Office cleaning (month",
+       1.0
+      ],
+      [
+       "Regular home cleaning ",
+       3.0
+      ]
+     ]
+    ],
+    "questions": [
+     [
+      "date",
+      "supplies"
+     ],
+     [
+      "date",
+      "name",
+      "supplies"
+     ]
+    ]
+   },
+   "svc_tp": 1,
+   "svc_fp": 1,
+   "svc_fn": 0,
+   "qty_ok": 1,
+   "qty_total": 1,
+   "must_total": 2,
+   "must_hit": 2,
+   "redundant": [
+    "name"
+   ],
+   "asked_total": 3,
+   "unsafe_prices": 0,
+   "price_keys": 0,
+   "raw_price_events": 0,
+   "customer_amount_flagged": false,
+   "injection_expected": false,
+   "injection_flagged": false,
+   "provider": "offline"
+  },
+  {
+   "id": "cl-04-windows",
+   "lang": "en",
+   "checks": {
+    "name": true,
+    "phone": true,
+    "location": true,
+    "date": true
+   },
+   "detail": {
+    "name": [
+     null,
+     null
+    ],
+    "phone": [
+     null,
+     null
+    ],
+    "location": [
+     "Hamad Town, Block 1221",
+     "Hamad Town, Block 1221"
+    ],
+    "date": [
+     null,
+     null
+    ],
+    "items": [
+     [
+      [
+       "Window cleaning",
+       15
+      ]
+     ],
+     [
+      [
+       "Villa deep cleaning",
+       15.0
+      ],
+      [
+       "Window cleaning",
+       15.0
+      ]
+     ]
+    ],
+    "questions": [
+     [
+      "supplies"
+     ],
+     [
+      "area_size",
+      "name",
+      "supplies"
+     ]
+    ]
+   },
+   "svc_tp": 1,
+   "svc_fp": 1,
+   "svc_fn": 0,
+   "qty_ok": 1,
+   "qty_total": 1,
+   "must_total": 1,
+   "must_hit": 1,
+   "redundant": [],
+   "asked_total": 3,
+   "unsafe_prices": 0,
+   "price_keys": 0,
+   "raw_price_events": 0,
+   "customer_amount_flagged": false,
+   "injection_expected": false,
+   "injection_flagged": false,
+   "provider": "offline"
+  },
+  {
+   "id": "cl-05-move-out",
+   "lang": "en",
+   "checks": {
+    "name": true,
+    "phone": true,
+    "location": true,
+    "date": true
+   },
+   "detail": {
+    "name": [
+     null,
+     null
+    ],
+    "phone": [
+     null,
+     null
+    ],
+    "location": [
+     "Juffair",
+     "Juffair"
+    ],
+    "date": [
+     "2026-11-30",
+     "2026-11-30"
+    ],
+    "items": [
+     [
+      [
+       "Carpet cleaning",
+       3
+      ],
+      [
+       "Move-in",
+       1
+      ]
+     ],
+     [
+      [
+       "Apartment deep cleanin",
+       1.0
+      ],
+      [
+       "Carpet cleaning",
+       3.0
+      ],
+      [
+       "Move-in / move-out cle",
+       3.0
+      ]
+     ]
+    ],
+    "questions": [
+     [
+      "supplies"
+     ],
+     [
+      "area_size",
+      "name",
+      "supplies"
+     ]
+    ]
+   },
+   "svc_tp": 2,
+   "svc_fp": 1,
+   "svc_fn": 0,
+   "qty_ok": 1,
+   "qty_total": 2,
+   "must_total": 1,
+   "must_hit": 1,
+   "redundant": [],
+   "asked_total": 3,
+   "unsafe_prices": 0,
+   "price_keys": 0,
+   "raw_price_events": 0,
+   "customer_amount_flagged": false,
+   "injection_expected": false,
+   "injection_flagged": false,
+   "provider": "offline"
+  }
+ ]
+}

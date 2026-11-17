@@ -1,0 +1,17 @@
+{% extends "portal_base.html" %}
+{% block content %}
+<form method="post" class="pt-card pform" autocomplete="on">
+  <input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+  <h2>{{ T.register }}</h2>
+  <label>{{ T.name }}</label><input name="name" value="{{ form.get('name','') }}" required maxlength="120" autocomplete="name">
+  <label>{{ T.phone }}</label><input name="phone" value="{{ form.get('phone','') }}" required maxlength="40" inputmode="tel" autocomplete="tel" placeholder="+973 3xxx xxxx" dir="ltr" style="text-align:start">
+  <label>{{ T.email_label if verify_on else T.email_opt }}</label><input type="email" name="email" value="{{ form.get('email','') }}" maxlength="254" autocomplete="email" dir="ltr" style="text-align:start" {{ 'required' if verify_on }}>
+  <div class="muted" style="margin-top:4px">{{ T.email_req_hint if verify_on else T.email_hint }}</div>
+  <label>{{ T.password }}</label><input type="password" name="password" required minlength="8" autocomplete="new-password">
+  <div class="muted" style="margin-top:4px">{{ T.pw_hint }}</div>
+  <div class="hp" aria-hidden="true"><label>Website</label><input name="website" tabindex="-1" autocomplete="off"></div>
+  <div class="btnrow"><button class="btn" type="submit" style="flex:1">{{ T.register }}</button></div>
+  <p class="muted" style="text-align:center;margin:14px 0 0">{{ T.have_acct }} <a href="{{ url_for('portal.login', slug=slug) }}">{{ T.login }}</a></p>
+</form>
+<p class="muted" style="text-align:center;font-size:.85rem"><a href="{{ url_for('auth.login') }}">I own a business</a></p>
+{% endblock %}

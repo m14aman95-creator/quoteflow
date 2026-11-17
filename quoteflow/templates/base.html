@@ -1,0 +1,72 @@
+{% from "_icons.html" import icon %}<!doctype html>
+<html lang="{{ ui_lang }}" dir="{{ dir }}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#00111e">
+<link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
+<link rel="apple-touch-icon" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
+<title>{% block title %}QuoteFlow AI{% endblock %}</title>
+<link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}">
+</head>
+<body>
+{% if me %}
+<header class="topbar">
+  <a class="brand" href="{{ url_for('main.dashboard') }}"><img class="mark" src="{{ url_for('static', filename='logo-tile.png') }}" alt="QuoteFlow"><span>QuoteFlow<small>AI quotations</small></span></a>
+  <a class="langlink" href="{{ url_for('main.set_lang', code='en' if ui_lang=='ar' else 'ar') }}">{{ 'English' if ui_lang=='ar' else 'العربية' }}</a>
+  <a class="linkbtn" href="{{ url_for('main.account') }}" style="text-decoration:none">{{ me.username or t('Account') }}</a>
+  <form method="post" action="{{ url_for('auth.logout') }}" class="inline">
+    <input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+    <button class="linkbtn" type="submit">{{ t('Log out') }}</button>
+  </form>
+</header>
+<div class="app">
+<nav class="bottomnav">
+  {% set ep = request.endpoint or '' %}
+  <a href="{{ url_for('main.dashboard') }}" class="{{ 'on' if ep=='main.dashboard' }}">{{ icon('home') }}<span>{{ t('Dashboard') }}</span></a>
+  <a href="{{ ep_url('quotes.history') }}" class="{{ 'on' if ep.startswith('quotes.') and ep != 'quotes.new_enquiry' }}">{{ icon('doc') }}<span>{{ t('Quotes') }}</span></a>
+  <a href="{{ ep_url('quotes.new_enquiry') }}" class="cta"><span class="ic-wrap">{{ icon('plus', 24) }}</span><span>{{ t('New enquiry') }}</span></a>
+  <a href="{{ url_for('requests.index') }}" class="{{ 'on' if ep.startswith('requests.') or ep == 'requests.portal_settings' }}"><span class="navic">{{ icon('inbox') }}{% if nav_new_requests %}<i class="badge">{{ nav_new_requests }}</i>{% endif %}</span><span>{{ t('Requests') }}</span></a>
+  <a href="{{ ep_url('catalogue.index') }}" class="{{ 'on' if ep.startswith('catalogue.') }}">{{ icon('list') }}<span>{{ t('Catalogue') }}</span></a>
+  <a href="{{ url_for('main.settings') }}" class="{{ 'on' if ep.startswith('main.settings') }}">{{ icon('gear') }}<span>{{ t('Settings') }}</span></a>
+</nav>
+<div class="appmain">
+<main class="wrap">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% for cat, msg in messages %}<div class="flash {{ cat }}">{{ t(msg) }}</div>{% endfor %}
+  {% endwith %}
+  {{ self.content() }}
+</main>
+</div>
+</div>
+{% else %}
+<div class="authpage">
+  <aside class="authside">
+    <img src="{{ url_for('static', filename='logo-full.png') }}" alt="QuoteFlow" style="height:120px;width:auto;align-self:flex-start;margin-left:-6px">
+    <div>
+      <h2>From a WhatsApp message to a polished quotation.</h2>
+      <p>Paste the customer's enquiry. QuoteFlow drafts the quote in Arabic and English, you set the prices and approve, and it goes out as a branded PDF.</p>
+      <ul>
+        <li><span class="dot">{{ icon('spark', 16) }}</span><span>AI reads the message and flags what is missing</span></li>
+        <li><span class="dot">{{ icon('shield', 16) }}</span><span>Prices come only from you. Totals and VAT are calculated by code, never guessed.</span></li>
+        <li><span class="dot">{{ icon('check', 16) }}</span><span>Nothing is sent until you approve it</span></li>
+      </ul>
+    </div>
+    <div class="muted" style="color:#9fcbc6;font-size:.8rem">Built for service businesses in Bahrain · BHD · VAT-ready</div>
+  </aside>
+  <div class="authmain">
+    <a class="langlink authtop" href="{{ url_for('main.set_lang', code='en' if ui_lang=='ar' else 'ar') }}">{{ 'English' if ui_lang=='ar' else 'العربية' }}</a>
+    <div class="authbox">
+      <div class="authmobile"><div class="brand" style="justify-content:center"><img class="mark" src="{{ url_for('static', filename='logo-tile.png') }}" alt="QuoteFlow"><span>QuoteFlow<small>AI quotations</small></span></div></div>
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for cat, msg in messages %}<div class="flash {{ cat }}">{{ t(msg) }}</div>{% endfor %}
+      {% endwith %}
+      {{ self.content() }}
+    </div>
+  </div>
+</div>
+{% endif %}
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){});}</script>
+</body>
+</html>

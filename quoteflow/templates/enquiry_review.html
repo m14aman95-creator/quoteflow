@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+{% from "_trust.html" import legend, tag %}
+{% block content %}
+<h1>Review enquiry</h1>
+{{ legend() }}
+
+{% for n in ex.notices %}<div class="flash warn">{{ n }}</div>{% endfor %}
+{% if ex.injection.suspected %}<div class="flash error">⚠ This message contains text that looks like instructions to the AI. It was ignored and treated as plain customer text.</div>{% endif %}
+
+<div class="card">
+  <b>What the customer wrote</b> <span class="tag customer">Customer said</span>
+  {% if e.raw_text %}<div dir="auto" style="white-space:pre-wrap;margin-top:8px;background:var(--customer-bg);padding:10px;border-radius:8px">{{ e.raw_text }}</div>
+  {% else %}<p class="muted">The original message was deleted by your retention setting. Extracted details below are kept.</p>{% endif %}
+</div>
+
+<form method="post" action="{{ url_for('quotes.create_quote', eid=e.id) }}">
+  <input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+{% if portal_req %}
+  <div class="card">
+    <b>Customer</b> <span class="tag approved">Portal request {{ portal_req.ref }}</span>
+    <p style="margin:8px 0 0"><b>{{ portal_req.cust_name or '—' }}</b> · {{ portal_req.cust_phone }}{% if portal_req.location %} · {{ portal_req.location }}{% endif %}</p>
+    <p class="muted" style="margin:4px 0 0">These details came from the customer's own account. The quote will be kept on their profile so they can track it.</p>
+    <a class="muted" href="{{ url_for('requests.detail', rid=portal_req.id) }}">Open the request</a>
+  </div>
+{% else %}
+  <div class="card">
+    <b>Customer details</b> <span class="muted">(edit if needed)</span>
+    {% set c = ex.customer %}
+    <div class="field {{ 'customer' if c.name.source=='customer' else ('ai' if c.name.source=='ai' else 'unsure') }}">
+      <div class="k"><span>Name</span>{{ tag(c.name.source, c.name.uncertain, c.name.value) }}</div>
+      <input name="name" value="{{ c.name.value or '' }}" maxlength="120" placeholder="Customer name">
+    </div>
+    <div class="field {{ 'customer' if c.phone.source=='customer' else 'unsure' }}">
+      <div class="k"><span>Phone</span>{{ tag(c.phone.source, c.phone.uncertain, c.phone.value) }}</div>
+      <input name="phone" value="{{ c.phone.value or '' }}" maxlength="40" inputmode="tel" placeholder="+973 ...">
+    </div>
+    <div class="field {{ 'customer' if c.location.source=='customer' else ('ai' if c.location.source=='ai' else 'unsure') }}">
+      <div class="k"><span>Location</span>{{ tag(c.location.source, c.location.uncertain, c.location.value) }}</div>
+      <input name="location" value="{{ c.location.value or '' }}" maxlength="160" placeholder="Area, block, building">
+    </div>
+  </div>
+{% endif %}
+
+  <div class="card">
+    <b>Request</b>
+    {% set d = ex.request.date %}
+    <div class="field {{ 'customer' if d.source=='customer' and not d.uncertain else 'unsure' }}">
+      <div class="k"><span>When</span>{{ tag(d.source, d.uncertain, d.value) }}</div>
+      <div>{{ d.value or '—' }}{% if d.pretty %} <span class="muted">→ {{ d.pretty }} (calculated by the app)</span>{% endif %}</div>
+    </div>
+    {% for s in ex.request.special %}
+    <div class="field {{ 'customer' if s.source=='customer' else 'ai' }}">
+      <div class="k"><span>Special requirement</span>{{ tag(s.source, s.uncertain, s.value) }}</div><div>{{ s.value }}</div>
+    </div>
+    {% endfor %}
+    <h2>Services found</h2>
+    {% for it in ex['items'] %}
+    {% set svc = services.get(it.service_id) %}
+    <div class="itemcard {{ 'unsure' if it.uncertain }}">
+      <div class="muted">Customer wrote: <b dir="auto">“{{ it.customer_words }}”</b> <span class="tag customer">Customer said</span></div>
+      <div style="margin-top:6px"><b>{{ svc.name_en if svc else 'No catalogue match' }}</b>
+        {% if svc %}<span class="tag ai">AI matched</span>{% else %}<span class="tag unsure">Uncertain</span>{% endif %}</div>
+      <div>Quantity: <b>{{ (it.quantity|int if it.quantity is not none and it.quantity == it.quantity|int else it.quantity) if it.quantity is not none else '?' }}</b>
+        {{ tag(it.quantity_source, it.quantity is none, it.quantity is not none) }}</div>
+      {% if it.description_en %}<div class="muted" style="margin-top:4px">Draft wording: {{ it.description_en }} <span class="tag ai">AI drafted</span></div>{% endif %}
+    </div>
+    {% endfor %}
+    {% for f in ex.flags %}<div class="flash warn" style="margin-top:8px">{{ f }}</div>{% endfor %}
+  </div>
+
+  <div class="card">
+    <label>Quote language</label>
+    <select name="language">
+      {% for v, l in [('en','English'),('ar','العربية'),('both','English + العربية')] %}
+      <option value="{{ v }}" {{ 'selected' if v == company.preferred_lang }}>{{ l }}</option>{% endfor %}
+    </select>
+    <div class="btnrow">
+      <button class="btn" type="submit" {{ 'disabled' if usage.exceeded and not existing }}>Create draft quote →</button>
+    </div>
+    <p class="muted">Creating a draft counts as 1 of your {{ usage.limit }} quotes this month ({{ usage.used }} used). You set all prices on the next screen.</p>
+  </div>
+</form>
+
+{% if ex.questions %}
+<div class="card" id="clarify">
+  <b>Missing details: ask the customer</b>
+  <p class="muted">Tick the questions to send. This builds a message for you to copy into WhatsApp. Nothing is sent automatically.</p>
+  {% for q in ex.questions %}
+  <label style="font-weight:400;display:flex;gap:8px;align-items:flex-start">
+    <input type="checkbox" class="qbox" value="{{ loop.index0 }}" checked>
+    <span>{{ q.en }}<br><span dir="rtl" class="muted">{{ q.ar }}</span></span>
+  </label>
+  {% endfor %}
+  <div class="row two">
+    <div><label>Message language</label>
+      <select id="wlang">{% for v, l in [('en','English'),('ar','العربية'),('both','Both')] %}<option value="{{ v }}" {{ 'selected' if v==wa_lang }}>{{ l }}</option>{% endfor %}</select></div>
+  </div>
+  <textarea id="watext" dir="auto" style="margin-top:10px;min-height:150px">{{ wa_text }}</textarea>
+  <div class="btnrow">
+    <button class="btn secondary" type="button" id="copybtn">Copy message</button>
+    {% if phone_digits %}<a class="btn secondary" id="walink" target="_blank" rel="noopener" href="https://wa.me/{{ phone_digits }}?text={{ wa_text|urlencode }}">Open in WhatsApp</a>{% endif %}
+  </div>
+</div>
+<script>
+(function(){
+  var eid={{ e.id }}, box=document.getElementById('watext'), link=document.getElementById('walink');
+  function refresh(){
+    var qs=[].slice.call(document.querySelectorAll('.qbox:checked')).map(function(c){return 'q='+c.value}).join('&');
+    var url='{{ url_for("quotes.whatsapp_text", eid=e.id) }}?lang='+document.getElementById('wlang').value+'&'+qs;
+    fetch(url).then(function(r){return r.json()}).then(function(j){box.value=j.text; if(link){link.href='https://wa.me/{{ phone_digits }}?text='+encodeURIComponent(j.text);}});
+  }
+  document.querySelectorAll('.qbox').forEach(function(c){c.addEventListener('change',refresh)});
+  document.getElementById('wlang').addEventListener('change',refresh);
+  document.getElementById('copybtn').addEventListener('click',function(){
+    box.select(); try{navigator.clipboard.writeText(box.value);}catch(e){document.execCommand('copy');}
+    this.textContent='Copied ✓'; var b=this; setTimeout(function(){b.textContent='Copy message'},1500);
+  });
+})();
+</script>
+{% endif %}
+{% endblock %}

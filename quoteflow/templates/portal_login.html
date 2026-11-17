@@ -1,0 +1,12 @@
+{% extends "portal_base.html" %}
+{% block content %}
+<form method="post" class="pt-card pform">
+  <input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+  <h2>{{ T.login }}</h2>
+  <label>{{ T.id_label }}</label><input name="identifier" value="{{ form.get('identifier','') }}" required maxlength="254" autocomplete="username" autocapitalize="none" spellcheck="false" dir="ltr" style="text-align:start">
+  <label>{{ T.password }}</label><input type="password" name="password" required autocomplete="current-password">
+  <div class="btnrow"><button class="btn" type="submit" style="flex:1">{{ T.login }}</button></div>
+  <p class="muted" style="text-align:center;margin:14px 0 0">{{ T.no_acct }} <a href="{{ url_for('portal.register', slug=slug) }}">{{ T.register }}</a></p>
+</form>
+<p class="muted" style="text-align:center;font-size:.85rem"><a href="{{ url_for('auth.login') }}">I own a business</a></p>
+{% endblock %}

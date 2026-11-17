@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ t('Customers') }}</h1>
+<form method="get" class="card"><input type="search" name="q" value="{{ term }}" placeholder="{{ t('Search') }}: name, phone, area">
+  <div class="btnrow"><button class="btn small" type="submit">{{ t('Search') }}</button></div></form>
+{% for r in rows %}
+<a href="{{ url_for('quotes.history', customer=r.id) }}" style="text-decoration:none;color:inherit"><div class="card" style="display:flex;justify-content:space-between;gap:10px">
+  <div><b>{{ r.name or '(no name)' }}</b><div class="muted">{{ r.phone }} · {{ r.location }}</div></div>
+  <div class="num">{{ r.n_quotes }} quote(s)<div class="muted">won {{ r.won_fils|bhd }} BHD</div></div></div></a>
+{% else %}<div class="card muted">No customers yet. They are added automatically when you create a quote.</div>{% endfor %}
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "portal_base.html" %}
+{% block hero %}
+<div class="herobox">
+  <h1>{{ T.hero_t }}</h1>
+  <p>{{ p('hero_s') }}</p>
+  <div class="hbtns">
+    <a class="btn light" href="{{ url_for('portal.register', slug=slug) }}">{{ T.register }}</a>
+    <a class="btn ghostw" href="{{ url_for('portal.login', slug=slug) }}">{{ T.login }}</a>
+  </div>
+</div>
+{% endblock %}
+{% block mainclass %}pull{% endblock %}
+{% block content %}
+<div class="pt-card">
+  <div class="how3">
+    <div class="s"><div class="n">1</div><div><b>{{ T.how1 }}</b><span>{{ T.how1d }}</span></div></div>
+    <div class="s"><div class="n">2</div><div><b>{{ T.how2 }}</b><span>{{ p('how2d') }}</span></div></div>
+    <div class="s"><div class="n">3</div><div><b>{{ T.how3 }}</b><span>{{ T.how3d }}</span></div></div>
+  </div>
+</div>
+{% if services %}
+<div class="pt-card"><h2>{{ T.services }}</h2><div class="svcchips">{% for s in services %}<span>{{ s }}</span>{% endfor %}</div></div>
+{% endif %}
+<div class="pt-card" style="text-align:center">
+  <b>{{ T.have_acct }}</b>
+  <div class="hbtns" style="justify-content:center;margin-top:10px"><a class="btn secondary" href="{{ url_for('portal.login', slug=slug) }}">{{ T.login }}</a></div>
+</div>
+{% endblock %}

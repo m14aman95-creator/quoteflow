@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ t('Catalogue') }}</h1>
+<p class="muted">Your services, standard descriptions and prices. Quotes use only the prices you enter here or on the quote itself. The AI never sets a price.</p>
+
+<details class="addbox" {{ 'open' if (edit or not services) }}>
+<summary class="btn secondary">+ {{ 'Edit service' if edit else 'Add a service' }}</summary>
+<form method="post" action="{{ url_for('catalogue.save') }}" class="card" id="svcform" style="margin-top:12px">
+  <input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+  {% if edit %}<input type="hidden" name="id" value="{{ edit.id }}">{% endif %}
+  <b>{{ 'Edit service' if edit else 'Add a service' }}</b>
+  <div class="row two">
+    <div><label>Name (English)</label><input name="name_en" value="{{ edit.name_en if edit else '' }}" maxlength="120"></div>
+    <div><label>الاسم (Arabic)</label><input name="name_ar" dir="rtl" value="{{ edit.name_ar if edit else '' }}" maxlength="120"></div>
+  </div>
+  <div class="row two">
+    <div><label>Standard description (English)</label><textarea name="desc_en" maxlength="600">{{ edit.desc_en if edit else '' }}</textarea></div>
+    <div><label>الوصف (Arabic)</label><textarea name="desc_ar" dir="rtl" maxlength="600">{{ edit.desc_ar if edit else '' }}</textarea></div>
+  </div>
+  <div class="row three">
+    <div><label>Unit</label>
+      <select name="unit">{% for u in units %}<option {{ 'selected' if edit and edit.unit==u }}>{{ u }}</option>{% endfor %}</select></div>
+    <div><label>Default price (BHD, optional)</label>
+      <input name="price" inputmode="decimal" placeholder="e.g. 12.500" value="{{ edit.default_price_fils|bhd if edit and edit.default_price_fils is not none else '' }}"></div>
+    <div><label>VAT treatment</label>
+      <select name="tax_class">
+        <option value="standard" {{ 'selected' if edit and edit.tax_class=='standard' }}>Standard rated</option>
+        <option value="zero" {{ 'selected' if edit and edit.tax_class=='zero' }}>Zero-rated</option>
+        <option value="exempt" {{ 'selected' if edit and edit.tax_class=='exempt' }}>Exempt</option>
+      </select></div>
+  </div>
+  <label>Keywords the customer might use (English and Arabic, comma separated)</label>
+  <div class="muted">Tips: <b>a+b</b> = both words close together (e.g. <i>clean+ac</i>) · <b>~word</b> = weak symptom word (used only if nothing else matches) · <b>!word</b> = never match if this word appears.</div>
+  <input name="keywords" value="{{ edit.keywords if edit else '' }}" placeholder="ac service, cleaning, صيانة مكيف, تنظيف">
+  <div class="btnrow"><button class="btn" type="submit">{{ t('Save') }}</button>
+    {% if edit %}<a class="btn secondary" href="{{ url_for('catalogue.index') }}">Cancel</a>{% endif %}</div>
+</form>
+</details>
+
+{% if not services %}
+<div class="card"><b>Start fast</b>
+  <p class="muted">Load a starter list of typical services with bilingual descriptions. Prices are left empty for you to fill in.</p>
+  <form method="post" class="btnrow">
+    <input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+    <button class="btn secondary" formaction="{{ url_for('catalogue.starter', pack='ac') }}">AC / maintenance starter</button>
+    <button class="btn secondary" formaction="{{ url_for('catalogue.starter', pack='cleaning') }}">Cleaning starter</button>
+    <button class="btn secondary" formaction="{{ url_for('catalogue.starter', pack='household') }}">Household services starter</button>
+    <button class="btn secondary" formaction="{{ url_for('catalogue.starter', pack='moving') }}">Furniture moving starter</button>
+  </form>
+</div>
+{% endif %}
+
+{% for s in services %}
+<div class="card">
+  <div style="display:flex;justify-content:space-between;gap:10px">
+    <div><b>{{ s.name_en }}</b><div dir="rtl" class="muted" style="text-align:start">{{ s.name_ar }}</div></div>
+    <div class="num">{% if s.default_price_fils is not none %}<b>{{ s.default_price_fils|bhd }}</b> BHD{% else %}<span class="tag unsure">no price</span>{% endif %}
+      <div class="muted">per {{ s.unit }} · {{ {'standard':'standard VAT','zero':'zero-rated','exempt':'exempt'}[s.tax_class] }}</div></div>
+  </div>
+  <div class="muted">{{ s.desc_en }}</div>
+  <div class="btnrow">
+    <a class="btn small secondary" href="{{ url_for('catalogue.edit', sid=s.id) }}">Edit</a>
+    <form method="post" action="{{ url_for('catalogue.delete', sid=s.id) }}" class="inline" onsubmit="return confirm('Remove this service?')">
+      <input type="hidden" name="_csrf" value="{{ csrf_token() }}"><button class="btn small danger" type="submit">Remove</button></form>
+  </div>
+</div>
+{% endfor %}
+{% endblock %}

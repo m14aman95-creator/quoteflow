@@ -1,0 +1,66 @@
+{% extends "portal_base.html" %}
+{% block content %}
+<p style="margin:0 0 8px"><a href="{{ url_for('portal.dashboard', slug=slug) }}">{{ '→' if L=='ar' else '←' }} {{ T.my_requests }}</a></p>
+<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:12px">
+  <h1 style="margin:0">{{ r.ref }}</h1><span class="chip st-{{ r.status }}">{{ T.st[r.status] }}</span>
+</div>
+<div class="hintbox {{ 'bad' if r.status in ('declined',) else ('gray' if r.status=='cancelled' else ('ok' if r.status in ('accepted','completed') else '')) }}">
+  <div>{{ T.hint[r.status].format(co=co_name) }}{% if r.status=='scheduled' and r.scheduled_for %} <b>{{ r.scheduled_for }}</b>{% endif %}</div>
+</div>
+
+{% if quote_url %}
+<div class="pt-card">
+  <h2>{{ T.d_quote }}</h2>
+  <div class="quotebox">
+    <div><div class="muted">{{ r.q_number }}</div><div class="tot">{{ r.q_total|bhd }} {{ 'د.ب' if L=='ar' else 'BHD' }}</div></div>
+    <a class="btn" href="{{ quote_url }}">{{ T.d_open_quote if r.status=='quoted' else T.d_view_quote }}</a>
+  </div>
+</div>
+{% elif r.status in ('new','reviewing') %}
+<div class="pt-card muted">{{ p('quote_wait') }}</div>
+{% endif %}
+
+{% if r.status != 'cancelled' and r.status != 'declined' %}
+<div class="pt-card">
+  <h2>{{ T.d_progress }}</h2>
+  <ul class="steps">
+    {% for s in steps %}<li class="{{ 'done' if loop.index0 < cur else ('cur' if loop.index0 == cur) }}"><span class="d">{% if loop.index0 < cur %}✓{% else %}{{ loop.index }}{% endif %}</span>{{ T.st[s] }}</li>{% endfor %}
+  </ul>
+</div>
+{% endif %}
+
+<div class="pt-card">
+  <h2>{{ T.d_details }}</h2>
+  <div class="kv"><span>{{ T.d_service }}</span><div>{{ r.service_label or '—' }}</div></div>
+  <div class="kv"><span>{{ T.d_details }}</span><div dir="auto" style="white-space:pre-wrap">{{ r.details }}</div></div>
+  {% if r.location %}<div class="kv"><span>{{ T.d_location }}</span><div dir="auto">{{ r.location }}</div></div>{% endif %}
+  {% if r.preferred_date %}<div class="kv"><span>{{ T.d_pref }}</span><div>{{ r.preferred_date }}</div></div>{% endif %}
+  {% if r.scheduled_for %}<div class="kv"><span>{{ T.d_sched }}</span><div><b>{{ r.scheduled_for }}</b></div></div>{% endif %}
+</div>
+
+<div class="pt-card">
+  <h2>{{ T.d_timeline }}</h2>
+  <div class="tl">
+  {% for e in events %}
+    {% if e.kind == 'message' %}
+    <div class="msg {{ 'them' if e.actor=='owner' else 'me' }}"><div class="who">{{ T.by_you if e.actor=='customer' else co_name }} · {{ e.created_at|local }}</div><div dir="auto" style="white-space:pre-wrap">{{ e.message }}</div></div>
+    {% else %}
+    <div class="ev"><span class="dotc st-{{ e.status }}"></span><div><b>{{ T.st[e.status] if e.status in T.st else e.status }}</b> <span class="muted">· {{ e.created_at|local }}</span>{% if e.message %}<div dir="auto">{{ e.message }}</div>{% endif %}</div></div>
+    {% endif %}
+  {% endfor %}
+  </div>
+  <form method="post" action="{{ url_for('portal.message', slug=slug, rid=r.id) }}" style="margin-top:12px">
+    <input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+    <label>{{ p('d_msg') }}</label>
+    <textarea name="message" maxlength="1000" style="min-height:80px" placeholder="{{ T.d_msg_ph }}" dir="auto" required></textarea>
+    <div class="btnrow"><button class="btn secondary" type="submit">{{ T.d_send }}</button>
+      {% if wa_digits %}<a class="btn secondary" target="_blank" rel="noopener" href="https://wa.me/{{ wa_digits }}">{{ p('d_wa') }}</a>{% endif %}</div>
+  </form>
+</div>
+
+{% if can_cancel %}
+<form method="post" action="{{ url_for('portal.cancel', slug=slug, rid=r.id) }}" onsubmit="return confirm('{{ T.d_cancel_q }}')" style="text-align:center">
+  <input type="hidden" name="_csrf" value="{{ csrf_token() }}"><button class="linkbtn" type="submit" style="color:var(--bad)">{{ T.d_cancel }}</button>
+</form>
+{% endif %}
+{% endblock %}

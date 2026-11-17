@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ t("Quotes") }} <a href="{{ url_for("quotes.customers") }}" class="muted" style="font-size:.9rem;font-weight:400">· {{ t("Customers") }}</a></h1>
+<form method="get" class="card">
+  <input type="search" name="q" value="{{ term }}" placeholder="{{ t('Search') }}: number, customer, phone, area, service">
+  {% if cust_id %}<input type="hidden" name="customer" value="{{ cust_id }}">{% endif %}
+  {% if status %}<input type="hidden" name="status" value="{{ status }}">{% endif %}
+  <div class="btnrow">
+    <a class="btn small {{ '' if status else 'secondary' }}" href="{{ url_for('quotes.history', q=term or None, customer=cust_id) }}">All</a>
+    {% for s in STATUSES %}<a class="btn small {{ '' if status==s else 'secondary' }}" href="{{ url_for('quotes.history', status=s, q=term or None, customer=cust_id) }}">{{ t(STATUS_LABEL[s]) }} {{ counts.get(s, 0) }}</a>{% endfor %}
+    <button class="btn small" type="submit">{{ t('Search') }}</button>
+  </div>
+</form>
+{% for r in rows %}
+<a href="{{ url_for('quotes.view', qid=r.id) }}" style="text-decoration:none;color:inherit">
+<div class="card" style="display:flex;justify-content:space-between;gap:10px;align-items:center">
+  <div><b>{{ r.number }}</b> <span class="chip {{ r.eff_status }}">{{ t(STATUS_LABEL[r.eff_status]) }}</span>
+    <div>{{ r.customer_name or '—' }} <span class="muted">{{ r.customer_location }}</span></div>
+    <div class="muted">{{ r.created_at[:10] }}{% if r.valid_until %} · valid until {{ r.valid_until }}{% endif %}{% if r.approved_at %} · <span class="tag approved">✓ approved</span>{% endif %}{% if r.responded_at and r.status == 'accepted' %} <span class="tag approved">accepted online</span>{% elif r.view_count %} <span class="tag customer">viewed by customer</span>{% endif %}</div></div>
+  <div class="num"><b>{{ r.total_fils|bhd }}</b> BHD</div>
+</div></a>
+{% else %}<div class="card muted">No quotes match.</div>{% endfor %}
+{% endblock %}
