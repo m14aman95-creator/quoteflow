@@ -16,9 +16,6 @@
 <div class="flash warn">Your service catalogue is empty. <a href="{{ ep_url('catalogue.index') }}">Add services</a> so quotes can use your standard descriptions and prices.</div>
 {% endif %}
 
-{% if nav_new_requests %}
-<a class="card reqalert" href="{{ url_for('requests.index', f='new') if False else url_for('requests.index') }}"><span>{{ icon('inbox', 22) }}</span><div><b>{{ nav_new_requests }} customer request{{ '' if nav_new_requests==1 else 's' }} waiting</b><div class="muted">Open the Requests inbox to review {{ 'it' if nav_new_requests==1 else 'them' }}.</div></div></a>
-{% endif %}
 <div class="kpis">
   <div class="kpi"><div class="ico">{{ icon('doc', 20) }}</div><div class="v">{{ usage.used }}<small>/ {{ usage.limit }}</small></div><div class="l">{{ t('Quotes this month') }}</div></div>
   <div class="kpi blue"><div class="ico">{{ icon('clock', 20) }}</div><div class="v">{{ open_value|bhd }}<small>BHD</small></div><div class="l">Waiting for a reply</div></div>

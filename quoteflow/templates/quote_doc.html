@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="{{ 'ar' if lang=='ar' else 'en' }}" dir="{{ direction }}">
+<head>
+<meta charset="utf-8">
+<title>{{ q.number }}</title>
+<style>
+@font-face{font-family:"Inter";font-weight:400;src:url(/static/fonts/Inter-Regular.woff) format("woff")}
+@font-face{font-family:"Inter";font-weight:600;src:url(/static/fonts/Inter-SemiBold.woff) format("woff")}
+@font-face{font-family:"Inter";font-weight:700;src:url(/static/fonts/Inter-Bold.woff) format("woff")}
+@page { size: A4; margin: 0; }
+:root{--brand:#0a4f4a;--brand2:#0f766e;--soft:#eef6f5;--gold:#b8924a;--ink:#0f172a;--mut:#64748b;--line:#e2e8f0}
+*{box-sizing:border-box}
+html,body{margin:0;background:#fff}
+body{font-family:"Inter","Noto Sans Arabic","Noto Naskh Arabic","Noto Sans","DejaVu Sans",Arial,sans-serif;color:var(--ink);font-size:10.6px;line-height:1.55;
+  -webkit-print-color-adjust:exact;print-color-adjust:exact}
+.sheet{width:210mm;min-height:295mm;display:flex;flex-direction:column}
+.band{height:7mm;background:linear-gradient(90deg,var(--brand),var(--brand2))}
+.band::after{content:"";display:block;height:1.2mm;background:var(--gold);margin-top:5mm}
+.in{flex:1;padding:9mm 15mm 6mm}
+.head{display:flex;justify-content:space-between;align-items:flex-start;gap:14mm}
+.co img{max-height:17mm;max-width:58mm;display:block;margin-bottom:3mm}
+.co .name{font-size:15px;font-weight:700;color:var(--brand);letter-spacing:-.01em}
+.co .ar{direction:rtl;text-align:right;font-weight:700}
+.co div{color:#334155}
+.co .mut{color:var(--mut);font-size:9.6px}
+.tbox{text-align:end;min-width:56mm}
+.tbox .t{font-size:24px;font-weight:700;color:var(--brand);letter-spacing:.04em;text-transform:uppercase;line-height:1.1}
+.tbox .n{margin-top:2mm;font-size:12px;font-weight:600}
+.tbox .n span{color:var(--mut);font-weight:400}
+.info{display:grid;grid-template-columns:1.25fr 1fr;gap:6mm;margin:8mm 0 6mm}
+.panel{border:1px solid var(--line);border-radius:3mm;padding:3.6mm 4.4mm;background:#fff}
+.panel.soft{background:var(--soft);border-color:#d7e9e6}
+.lbl{font-size:8.4px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);font-weight:700;margin-bottom:1.6mm}
+.panel .big{font-size:13px;font-weight:700}
+.kv{display:flex;justify-content:space-between;gap:6mm;padding:.9mm 0}
+.kv span:first-child{color:var(--mut)}
+.kv b{font-weight:600}
+table{width:100%;border-collapse:collapse;margin-top:2mm}
+thead th{background:var(--brand);color:#fff;font-size:8.8px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;padding:2.6mm 2.4mm;text-align:start}
+thead th:first-child{border-radius:2mm 0 0 2mm}thead th:last-child{border-radius:0 2mm 2mm 0}
+html[dir=rtl] thead th:first-child{border-radius:0 2mm 2mm 0}html[dir=rtl] thead th:last-child{border-radius:2mm 0 0 2mm}
+tbody td{padding:3mm 2.4mm;border-bottom:1px solid var(--line);vertical-align:top}
+tbody tr:nth-child(even) td{background:#fafcfc}
+tr{page-break-inside:avoid}
+.n{text-align:end;white-space:nowrap;font-variant-numeric:tabular-nums}
+.idx{color:var(--mut);width:7mm}
+.ttl{font-weight:600;font-size:11px}
+.sub{color:var(--mut);font-size:9.4px;margin-top:.6mm}
+.ar{direction:rtl;text-align:right}
+.bottom{display:flex;justify-content:space-between;gap:10mm;margin-top:6mm;align-items:flex-start}
+.notes{flex:1;font-size:9.6px}
+.totals{width:74mm;flex:none}
+.totals .r{display:flex;justify-content:space-between;padding:1.5mm 0;border-bottom:1px dashed var(--line)}
+.totals .r span:first-child{color:var(--mut)}
+.totals .r.sm{font-size:9.4px}
+.totals .grand{display:flex;justify-content:space-between;align-items:center;margin-top:3mm;background:linear-gradient(90deg,var(--brand),var(--brand2));color:#fff;border-radius:2.6mm;padding:3.4mm 4mm;font-weight:700;font-size:13px}
+.totals .grand small{font-weight:600;opacity:.85;font-size:9px;display:block;letter-spacing:.06em}
+.sec{margin-top:6mm}
+.sec h4{margin:0 0 1.6mm;font-size:8.6px;letter-spacing:.14em;text-transform:uppercase;color:var(--brand);font-weight:700}
+.terms{font-size:9.4px;color:#334155;border-inline-start:2px solid var(--gold);padding-inline-start:3mm}
+.accept{margin-top:8mm;display:grid;grid-template-columns:1.3fr 1.3fr .8fr;gap:8mm;page-break-inside:avoid}
+.accept .line{border-bottom:1px solid #94a3b8;height:11mm}
+.accept .cap{font-size:8.4px;color:var(--mut);margin-top:1.2mm;letter-spacing:.06em;text-transform:uppercase}
+.acceptnote{font-size:8.8px;color:var(--mut);margin-top:3mm}
+.foot{padding:0 15mm 9mm;page-break-inside:avoid}
+.foot .rule{height:.4mm;background:linear-gradient(90deg,var(--brand),var(--gold));margin-bottom:3mm;border-radius:1mm}
+.foot .row{display:flex;justify-content:space-between;gap:8mm;font-size:8.8px;color:var(--mut)}
+.foot b{color:var(--ink);font-weight:600}
+.ar2{font-size:19px;letter-spacing:0;text-transform:none}
+body.both{font-size:10px}
+body.both .in{padding-top:6mm}
+body.both .info{margin:5mm 0 4mm}
+body.both tbody td{padding:2.2mm 2.4mm}
+body.both .sec{margin-top:4mm}
+body.both .accept{margin-top:5mm}
+body.both .accept .line{height:8mm}
+body.both .bottom{margin-top:4mm}
+.sheet.fit .co img{max-height:13mm}
+body.both .acceptnote{display:none}
+body.both .foot{padding-bottom:5mm}
+body.both .band{height:5mm}
+body.both .band::after{margin-top:3.5mm}
+body.both tbody td{padding:1.8mm 2.4mm}
+body.both .in{padding-top:3.5mm}
+body.both .co img{max-height:12mm;margin-bottom:1.5mm}
+body.both .panel{padding:2.6mm 4mm}
+body.both .info{margin:4mm 0 3mm}
+body.both .accept .line{height:7mm}
+body.both .accept{margin-top:3mm}
+body.both .sec{margin-top:3mm}
+.pill{display:inline-block;background:#e8f5ec;color:#15803d;border-radius:99px;font-size:8px;font-weight:600;padding:.2mm 2mm;margin-inline-start:2mm;vertical-align:middle}
+.mutl{color:var(--mut);font-weight:400;letter-spacing:0;text-transform:none}
+table.opt td{padding:1.8mm 2.4mm;border-bottom:1px dashed var(--line);background:#fcfcfd}
+.ar2s{color:var(--mut)}
+.okbox{margin-top:2mm;border:1px solid #bfe3cb;background:#effaf2;color:#15803d;border-radius:2.4mm;padding:3.4mm 4mm;font-size:11px}
+</style>
+</head>
+<body class="{{ 'both' if lang=='both' }}"><div class="sheet">
+<div class="band"></div>
+<div class="in">
+<div class="head">
+  <div class="co">
+    {% if logo %}<img src="{{ logo }}" alt="">{% endif %}
+    {% if lang != 'ar' %}<div class="name">{{ company.name_en }}</div>{% endif %}
+    {% if lang != 'en' and company.name_ar %}<div class="name ar">{{ company.name_ar }}</div>{% endif %}
+    {% if company.address %}<div class="mut">{{ company.address }}</div>{% endif %}
+    <div class="mut">{% if company.phone %}{{ lab('phone') }}: <bdi dir="ltr">{{ company.phone }}</bdi>{% endif %}{% if company.email %} · {{ company.email }}{% endif %}</div>
+    <div class="mut">{% if company.cr_number %}{{ lab('cr') }}: {{ company.cr_number }}{% endif %}{% if company.vat_registered and company.vat_number %} · {{ lab('vat_no') }}: {{ company.vat_number }}{% endif %}</div>
+  </div>
+  <div class="tbox">
+    {% if lang == 'both' %}<div class="t">Quotation</div><div class="t ar2">عرض سعر</div>{% else %}<div class="t">{{ lab('quotation') }}</div>{% endif %}
+    <div class="n"><bdi dir="ltr">{{ q.number }}</bdi></div>
+  </div>
+</div>
+
+<div class="info">
+  <div class="panel soft"><div class="lbl">{{ lab('to') }}</div>
+    {% if cust %}<div class="big">{{ cust.name or '—' }}</div>
+      {% if cust.phone %}<div><bdi dir="ltr">{{ cust.phone }}</bdi></div>{% endif %}
+      {% if cust.email %}<div><bdi dir="ltr">{{ cust.email }}</bdi></div>{% endif %}
+      {% if cust.location %}<div>{{ cust.location }}</div>{% endif %}
+    {% else %}—{% endif %}
+  </div>
+  <div class="panel"><div class="lbl">{{ lab('details') }}</div>
+    <div class="kv"><span>{{ lab('number') }}</span><b><bdi dir="ltr">{{ q.number }}</bdi></b></div>
+    <div class="kv"><span>{{ lab('date') }}</span><b>{{ (q.approved_at or q.created_at)[:10] }}</b></div>
+    <div class="kv"><span>{{ lab('valid') }}</span><b>{{ q.valid_until or '—' }}</b></div>
+  </div>
+</div>
+
+<table>
+  <thead><tr><th style="width:6%">#</th><th>{{ lab('item') }}</th><th class="n" style="width:11%">{{ lab('qty') }}</th>
+      <th class="n" style="width:15%">{{ lab('unit_price') }}</th>
+      {% if tot.vat_applied %}<th class="n" style="width:9%">{{ lab('vat') }}</th>{% endif %}
+      <th class="n" style="width:15%">{{ lab('amount') }}</th></tr></thead>
+  <tbody>
+  {% for row in rows %}
+  {% set it = row.it %}{% set r = row.r %}
+  <tr>
+    <td class="idx">{{ row.n }}</td>
+    <td>
+      {% if lang == 'en' %}<div class="ttl">{{ it.title_en or it.title_ar }}{% if row.chosen %} <span class="pill">{{ lab('chosen') }}</span>{% endif %}</div>{% if it.desc_en or it.desc_ar %}<div class="sub">{{ it.desc_en or it.desc_ar }}</div>{% endif %}
+      {% elif lang == 'ar' %}<div class="ttl">{{ it.title_ar or it.title_en }}</div>{% if it.desc_ar or it.desc_en %}<div class="sub">{{ it.desc_ar or it.desc_en }}</div>{% endif %}
+      {% else %}
+        <div class="ttl">{{ it.title_en or it.title_ar }}</div>{% if it.desc_en %}<div class="sub">{{ it.desc_en }}</div>{% endif %}
+        {% if it.title_ar or it.desc_ar %}<div class="ar" style="margin-top:1.4mm"><div class="ttl">{{ it.title_ar }}</div>{% if it.desc_ar %}<div class="sub">{{ it.desc_ar }}</div>{% endif %}</div>{% endif %}
+      {% endif %}
+    </td>
+    <td class="n">{{ fmt_qty(it.quantity_milli) }}<div class="sub">{{ unit(it.unit) }}</div></td>
+    <td class="n">{{ it.unit_price_fils|bhd }}</td>
+    {% if tot.vat_applied %}<td class="n">{% if it.tax_class == 'standard' %}{{ '%g' % (tot.vat_rate_bp/100) }}%{% elif it.tax_class == 'zero' %}{{ lab('zero') }}{% else %}{{ lab('exempt') }}{% endif %}</td>{% endif %}
+    <td class="n"><b>{{ r.line_total_fils|bhd }}</b></td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+{% if optional_rows %}
+<div class="sec" style="margin-top:4mm"><h4>{{ lab('optional') }} <span class="mutl">· {{ lab('not_incl') }}</span></h4>
+<table class="opt"><tbody>
+{% for o in optional_rows %}<tr><td>{% if lang == 'ar' %}{{ o.it.title_ar or o.it.title_en }}{% elif lang == 'en' %}{{ o.it.title_en or o.it.title_ar }}{% else %}{{ o.it.title_en or o.it.title_ar }}{% if o.it.title_ar %} <span class="ar2s">/ {{ o.it.title_ar }}</span>{% endif %}{% endif %}</td>
+<td class="n">{{ fmt_qty(o.it.quantity_milli) }} × {{ o.it.unit_price_fils|bhd }}</td><td class="n"><b>{{ o.amount|bhd }}</b> {{ company.currency }}</td></tr>{% endfor %}
+</tbody></table></div>
+{% endif %}
+<div class="bottom">
+  <div class="notes">
+    {% if q.notes %}<div class="sec" style="margin-top:0"><h4>{{ lab('notes') }}</h4><div>{{ q.notes }}</div></div>{% endif %}
+  </div>
+  <div class="totals">
+    <div class="r"><span>{{ lab('subtotal') }}</span><span>{{ tot.subtotal_fils|bhd }}</span></div>
+    {% if tot.discount_fils %}<div class="r"><span>{{ lab('discount') }}{% if q.discount_type=='percent' %} (<bdi dir="ltr">{{ '%g' % (q.discount_value/100) }}%</bdi>){% endif %}</span><span><bdi dir="ltr">-{{ tot.discount_fils|bhd }}</bdi></span></div>{% endif %}
+    {% if tot.vat_applied %}
+      {% if tot.zero_rated_fils or tot.exempt_fils %}<div class="r sm"><span>{{ lab('taxable') }}</span><span>{{ tot.taxable_fils|bhd }}</span></div>{% endif %}
+      <div class="r"><span>{{ lab('vat_total') }} <bdi dir="ltr">{{ '%g' % (tot.vat_rate_bp/100) }}%</bdi></span><span>{{ tot.vat_fils|bhd }}</span></div>
+    {% else %}<div class="r sm"><span>{{ lab('not_reg') }}</span><span></span></div>{% endif %}
+    <div class="grand"><span>{{ lab('total') }}<small>{{ company.currency }}</small></span><span>{{ tot.total_fils|bhd }}</span></div>
+  </div>
+</div>
+
+{% if q.terms_en or q.terms_ar %}
+<div class="sec"><h4>{{ lab('terms') }}</h4>
+  <div class="terms">
+  {% if lang == 'en' %}<div>{{ q.terms_en or q.terms_ar }}</div>
+  {% elif lang == 'ar' %}<div>{{ q.terms_ar or q.terms_en }}</div>
+  {% else %}{% if q.terms_en %}<div>{{ q.terms_en }}</div>{% endif %}{% if q.terms_ar %}<div class="ar" style="margin-top:1.6mm">{{ q.terms_ar }}</div>{% endif %}{% endif %}
+  </div>
+</div>
+{% endif %}
+
+<div class="sec"><h4>{{ lab('accept') }}</h4>
+  {% if q.status == 'accepted' and q.response_name %}
+  <div class="okbox">&#10003; {{ lab('accepted_on') }} <b>{{ q.response_name }}</b> · {{ q.responded_at[:10] }}</div>
+  {% else %}
+  <div class="accept">
+    <div><div class="line"></div><div class="cap">{{ lab('name_l') }}</div></div>
+    <div><div class="line"></div><div class="cap">{{ lab('sign') }}</div></div>
+    <div><div class="line"></div><div class="cap">{{ lab('date') }}</div></div>
+  </div>
+  <div class="acceptnote">{{ lab('accept_note') }}</div>
+  {% endif %}
+</div>
+</div>
+
+<div class="foot"><div class="rule"></div>
+  <div class="row"><span><b>{{ company.name_en or company.name_ar }}</b>{% if company.phone %} · <bdi dir="ltr">{{ company.phone }}</bdi>{% endif %}</span>
+  <span>{{ lab('thanks') }}{% if show_brand %} · {{ lab('brand') }}{% endif %}</span></div>
+</div>
+</div></body></html>

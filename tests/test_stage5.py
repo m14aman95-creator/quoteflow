@@ -2,7 +2,6 @@ import re
 import subprocess
 import pytest
 import seed
-import legacy_seed
 from conftest import Client
 from quoteflow import docs
 from quoteflow.db import get_db
@@ -11,7 +10,7 @@ from test_quotes import make_quote, form_from_db, MSG
 
 @pytest.fixture()
 def ac(app):
-    legacy_seed.seed_legacy(app)
+    seed.seed_legacy(app)
     c = Client(app)
     c.post("/login", {"email": "ac@demo.qf", "password": "demo1234"}, page="/login")
     return c
@@ -46,7 +45,7 @@ def test_document_languages_and_rtl(app, ac):
 
 
 def test_not_vat_registered_document_has_no_vat(app):
-    legacy_seed.seed_legacy(app)
+    seed.seed_legacy(app)
     c = Client(app)
     c.post("/login", {"email": "clean@demo.qf", "password": "demo1234"}, page="/login")
     qid = approved_quote(app, c) if False else None
@@ -123,7 +122,7 @@ def test_customers_list_and_filter(app, ac):
 
 
 def test_history_tenant_isolation(app):
-    legacy_seed.seed_legacy(app)
+    seed.seed_legacy(app)
     a, b = Client(app), Client(app)
     a.post("/login", {"email": "ac@demo.qf", "password": "demo1234"}, page="/login")
     b.post("/login", {"email": "clean@demo.qf", "password": "demo1234"}, page="/login")
@@ -136,7 +135,7 @@ def test_history_tenant_isolation(app):
 
 
 def test_seeded_quotes_do_not_use_current_month_quota(app):
-    legacy_seed.seed_legacy(app)
+    seed.seed_legacy(app)
     from quoteflow.usage import usage_summary
     with app.app_context():
         c = dict(get_db().execute("SELECT * FROM companies WHERE email='clean@demo.qf'").fetchone())

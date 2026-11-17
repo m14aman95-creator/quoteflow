@@ -7,7 +7,6 @@ AR = {
     "Quotes": "عروض الأسعار",
     "Catalogue": "الخدمات",
     "Customers": "العملاء",
-    "Requests": "الطلبات",
     "Settings": "الإعدادات",
     "Log out": "تسجيل الخروج",
     "Log in": "تسجيل الدخول",

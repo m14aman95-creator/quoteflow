@@ -15,14 +15,6 @@
 
 <form method="post" action="{{ url_for('quotes.create_quote', eid=e.id) }}">
   <input type="hidden" name="_csrf" value="{{ csrf_token() }}">
-{% if portal_req %}
-  <div class="card">
-    <b>Customer</b> <span class="tag approved">Portal request {{ portal_req.ref }}</span>
-    <p style="margin:8px 0 0"><b>{{ portal_req.cust_name or '—' }}</b> · {{ portal_req.cust_phone }}{% if portal_req.location %} · {{ portal_req.location }}{% endif %}</p>
-    <p class="muted" style="margin:4px 0 0">These details came from the customer's own account. The quote will be kept on their profile so they can track it.</p>
-    <a class="muted" href="{{ url_for('requests.detail', rid=portal_req.id) }}">Open the request</a>
-  </div>
-{% else %}
   <div class="card">
     <b>Customer details</b> <span class="muted">(edit if needed)</span>
     {% set c = ex.customer %}
@@ -39,7 +31,6 @@
       <input name="location" value="{{ c.location.value or '' }}" maxlength="160" placeholder="Area, block, building">
     </div>
   </div>
-{% endif %}
 
   <div class="card">
     <b>Request</b>

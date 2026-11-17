@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Share · {{ q.number }}</h1>
+<div class="card">
+  <p class="muted">You approved this quote, so you can now send it. Nothing leaves the app until you press a send button.</p>
+  <div class="card" style="background:linear-gradient(135deg,#f2faf8,#fff);border-color:#cfe6e2">
+    <b>Interactive customer link</b>
+    <p class="muted" style="margin:4px 0 10px">The customer opens the quote on their phone, chooses optional add-ons (the total updates by itself), then accepts or declines online. You are told when they open it and when they answer.{% if not n_optional %} Tip: tick <i>Optional add-on</i> on an item in the editor to offer extras.{% endif %}</p>
+    {% if link %}
+      <input id="linkbox" readonly value="{{ link }}" onclick="this.select()">
+      <div class="btnrow">
+        <button class="btn" type="button" id="copylink">Copy link</button>
+        <a class="btn secondary" href="{{ link }}" target="_blank" rel="noopener">Preview as customer</a>
+        <form method="post" action="{{ url_for('quotes.revoke_link', qid=q.id) }}" class="inline" onsubmit="return confirm('Turn this link off? The customer will no longer be able to open it.')">
+          <input type="hidden" name="_csrf" value="{{ csrf_token() }}"><button class="btn secondary" type="submit">Turn link off</button></form>
+      </div>
+      <div class="muted" style="margin-top:10px">
+        {% if q.responded_at and q.status == 'accepted' %}<span class="tag approved">Accepted online</span> by <b>{{ q.response_name }}</b> on {{ q.responded_at[:10] }}.
+        {% elif q.responded_at %}<span class="tag unsure">Declined online</span>{% if q.response_note %}: “{{ q.response_note }}”{% endif %}
+        {% elif q.view_count %}<span class="tag customer">Viewed {{ q.view_count }}×</span> last seen {{ q.viewed_at }} (UTC).
+        {% else %}Not opened yet.{% endif %}
+      </div>
+    {% else %}
+      <form method="post" action="{{ url_for('quotes.create_link', qid=q.id) }}"><input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+      <button class="btn gold" type="submit">Create customer link</button></form>
+    {% endif %}
+  </div>
+  <div class="btnrow" style="margin-top:0">
+    {% for v, l in [('en','English'),('ar','العربية'),('both','English + العربية')] %}
+    <a class="btn small {{ '' if lang==v else 'secondary' }}" href="{{ url_for('quotes.share', qid=q.id, lang=v) }}">{{ l }}</a>{% endfor %}
+  </div>
+  {% if mail_ready %}
+  <form method="post" action="{{ url_for('quotes.send_email', qid=q.id) }}" class="card" style="margin-top:12px">
+    <input type="hidden" name="_csrf" value="{{ csrf_token() }}"><input type="hidden" name="lang" value="{{ lang }}">
+    <label>Email the PDF to the customer</label>
+    <input name="to" type="email" value="{{ cust.email if cust else '' }}" placeholder="customer@example.com" required maxlength="254">
+    <div class="btnrow"><button class="btn" type="submit">Send email with PDF</button></div>
+  </form>
+  {% else %}<p class="muted">Email sending is off. Ask the administrator to set the SMTP_* settings (see README).</p>{% endif %}
+  <textarea id="sharetext" dir="auto" style="min-height:260px;margin-top:12px">{{ text }}</textarea>
+  <div class="btnrow">
+    <button class="btn" type="button" id="copybtn">Copy message</button>
+    {% if digits %}<a class="btn secondary" id="wabtn" target="_blank" rel="noopener" href="https://wa.me/{{ digits }}?text={{ text|urlencode }}">Send via WhatsApp</a>
+    {% else %}<a class="btn secondary" target="_blank" rel="noopener" href="https://wa.me/?text={{ text|urlencode }}">Open WhatsApp</a>{% endif %}
+    <a class="btn secondary" href="{{ url_for('quotes.pdf', qid=q.id, lang=lang) }}">Download PDF to attach</a>
+  </div>
+  <form method="post" action="{{ url_for('quotes.set_status', qid=q.id) }}" class="btnrow">
+    <input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+    <button class="btn secondary" name="status" value="sent">I sent it: mark as Sent</button>
+    <a class="btn secondary" href="{{ url_for('quotes.view', qid=q.id) }}">Back to quote</a>
+  </form>
+</div>
+<script>
+document.getElementById('copybtn').addEventListener('click',function(){var b=this,t=document.getElementById('sharetext');t.select();
+ try{navigator.clipboard.writeText(t.value);}catch(e){document.execCommand('copy');} b.textContent='Copied ✓';setTimeout(function(){b.textContent='Copy message'},1500);});
+var cl=document.getElementById('copylink');if(cl){cl.addEventListener('click',function(){var b=document.getElementById('linkbox');b.select();try{navigator.clipboard.writeText(b.value);}catch(e){document.execCommand('copy');}cl.textContent='Copied ✓';setTimeout(function(){cl.textContent='Copy link'},1500);});}
+var wa=document.getElementById('wabtn');if(wa){wa.addEventListener('click',function(){fetch('{{ url_for("quotes.whatsapp_sent", qid=q.id) }}',{method:'POST',headers:{'X-CSRF-Token':'{{ csrf_token() }}'},body:new URLSearchParams({_csrf:'{{ csrf_token() }}'})});});}
+</script>
+{% endblock %}

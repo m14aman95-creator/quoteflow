@@ -1,7 +1,6 @@
 """One combined demo account, username login, account changes."""
 import pytest
 import seed
-import legacy_seed
 from conftest import Client, register
 from quoteflow.db import get_db
 
@@ -62,5 +61,5 @@ def test_change_username_and_password(one):
 
 
 def test_legacy_email_login_still_works(app):
-    legacy_seed.seed_legacy(app)
+    seed.seed_legacy(app)
     assert Client(app).post("/login", {"email": "ac@demo.qf", "password": "demo1234"}, page="/login").status_code == 302

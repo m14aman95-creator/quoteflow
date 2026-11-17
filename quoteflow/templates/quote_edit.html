@@ -1,0 +1,174 @@
+{% extends "base.html" %}
+{% from "_trust.html" import legend, tag, origin_tag %}
+{% block title %}{{ q.number }}{% endblock %}
+{% macro itemfields(i, it, locked=False) %}
+<div class="itemcard {{ 'unsure' if it.uncertain }}" data-i="{{ i }}">
+  <input type="hidden" name="item_id_{{ i }}" value="{{ it.id or '' }}">
+  <input type="hidden" name="service_id_{{ i }}" value="{{ it.service_id or '' }}">
+  <input type="hidden" name="origin_{{ i }}" value="{{ it.origin }}">
+  <input type="hidden" name="uncertain_{{ i }}" value="{{ 1 if it.uncertain else 0 }}">
+  <input type="hidden" name="customer_words_{{ i }}" value="{{ it.customer_words }}">
+  <input type="hidden" name="delete_{{ i }}" value="0" class="delflag">
+  <div style="display:flex;justify-content:space-between;gap:8px;align-items:center">
+    <div>{{ origin_tag(it.origin) }}
+      {% if it.uncertain %}<span class="tag unsure">Uncertain: check</span>{% endif %}
+      {% if it.price_source == 'catalogue' %}<span class="tag manual">Price from your catalogue</span>
+      {% elif it.price_source == 'manual' %}<span class="tag approved">Price entered by you</span>
+      {% else %}<span class="tag unsure">No price yet</span>{% endif %}</div>
+    <button type="button" class="btn small danger delbtn">Remove</button>
+  </div>
+  {% if it.customer_words %}<div class="muted" style="margin-top:4px">Customer wrote: <span dir="auto">“{{ it.customer_words }}”</span></div>{% endif %}
+  <div class="row two">
+    <div><label>Item (English)</label><input name="title_en_{{ i }}" value="{{ it.title_en }}" maxlength="160"></div>
+    <div><label>البند (Arabic)</label><input name="title_ar_{{ i }}" dir="rtl" value="{{ it.title_ar }}" maxlength="160"></div>
+  </div>
+  <div class="row two">
+    <div><label>Description <span class="tag ai">AI drafted, edit freely</span></label><textarea name="desc_en_{{ i }}" maxlength="600" style="min-height:70px">{{ it.desc_en }}</textarea></div>
+    <div><label>الوصف</label><textarea name="desc_ar_{{ i }}" dir="rtl" maxlength="600" style="min-height:70px">{{ it.desc_ar }}</textarea></div>
+  </div>
+  <div class="row three">
+    <div><label>Quantity</label><input name="qty_{{ i }}" inputmode="decimal" value="{{ fmt_qty(it.quantity_milli) }}" class="calc"></div>
+    <div><label>Unit price (BHD)</label><input name="price_{{ i }}" inputmode="decimal" placeholder="enter price" value="{{ it.unit_price_fils|bhd if it.unit_price_fils is not none else '' }}" class="calc"></div>
+    <div><label>VAT treatment</label>
+      <select name="tax_{{ i }}" class="calc">
+        <option value="standard" {{ 'selected' if it.tax_class=='standard' }}>Standard rated</option>
+        <option value="zero" {{ 'selected' if it.tax_class=='zero' }}>Zero-rated</option>
+        <option value="exempt" {{ 'selected' if it.tax_class=='exempt' }}>Exempt</option>
+      </select></div>
+  </div>
+  <input type="hidden" name="unit_{{ i }}" value="{{ it.unit }}">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
+    <span>
+    <label style="font-weight:400;margin:0;display:inline-block"><input type="checkbox" name="reviewed_{{ i }}" value="1" {{ 'checked' if it.approved }}> I checked this item</label>
+    <label style="font-weight:400;margin:0 14px;display:inline-block" title="Shown to the customer as an add-on they can choose. Not in the total until they pick it."><input type="checkbox" name="optional_{{ i }}" value="1" class="calc" {{ 'checked' if it.optional }}> Optional add-on</label>
+    </span>
+    <b>Line: <span class="linetotal">—</span> BHD</b>
+  </div>
+</div>
+{% endmacro %}
+
+{% block content %}
+<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap">
+  <div><h1 style="margin-bottom:0">{{ q.number }}</h1>
+    <span class="chip {{ status }}">{{ t(STATUS_LABEL[status]) }}</span>
+    {% if q.approved_at %}<span class="tag approved">✓ You approved · {{ q.approved_at }}</span>{% endif %}</div>
+  {% if enquiry %}<a class="btn small secondary" href="{{ url_for('quotes.review_enquiry', eid=enquiry.id) }}">Back to enquiry</a>{% endif %}
+</div>
+{{ legend() }}
+
+{% if not company.vat_confirmed_at %}<div class="flash warn">Confirm your VAT settings in <a href="{{ url_for('main.settings') }}">Settings</a> before approving.</div>{% endif %}
+
+{% if q.approved_at %}
+{# ---------------- APPROVED: read-only, with export actions ---------------- #}
+<div class="card">
+  <b>Customer</b>
+  <div>{{ cust.name if cust else '' }} · {{ cust.phone if cust else '' }}{% if cust and cust.email %} · {{ cust.email }}{% endif %} · {{ cust.location if cust else '' }}</div>
+  <div class="muted">Valid until {{ q.valid_until or '—' }} · Language: {{ {'en':'English','ar':'العربية','both':'English + العربية'}[q.language] }}</div>
+</div>
+{% for it in items %}
+<div class="itemcard">
+  <div>{{ origin_tag(it.origin) }} <span class="tag approved">✓ You approved</span></div>
+  <b>{{ it.title_en }}</b><span dir="rtl" class="muted"> · {{ it.title_ar }}</span>
+  <div class="muted">{{ it.desc_en }}</div>
+  <div class="num" style="text-align:end">{{ fmt_qty(it.quantity_milli) }} {{ it.unit }} × {{ it.unit_price_fils|bhd }} BHD</div>
+</div>
+{% endfor %}
+<div class="card totals">
+  <div><span>Subtotal</span><span>{{ tot.subtotal_fils|bhd }}</span></div>
+  {% if tot.discount_fils %}<div><span>Discount</span><span>-{{ tot.discount_fils|bhd }}</span></div>{% endif %}
+  {% if tot.vat_applied %}<div><span>VAT {{ '%g' % (tot.vat_rate_bp/100) }}%</span><span>{{ tot.vat_fils|bhd }}</span></div>{% else %}<div class="muted"><span>VAT</span><span>not registered</span></div>{% endif %}
+  <div class="grand"><span>Total (BHD)</span><span>{{ tot.total_fils|bhd }}</span></div>
+</div>
+<div class="card">
+  <div class="btnrow" style="margin-top:0">
+    <a class="btn" href="{{ ep_url('quotes.preview', qid=q.id) }}">Preview &amp; export PDF</a>
+    <a class="btn secondary" href="{{ ep_url('quotes.share', qid=q.id) }}">Share on WhatsApp</a>
+    <form method="post" action="{{ url_for('quotes.unlock', qid=q.id) }}" class="inline"><input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+      <button class="btn secondary" type="submit">Edit again</button></form>
+  </div>
+</div>
+{% include "_status.html" %}
+<div class="card" id="feedback">
+  <b>How was the AI draft?</b>
+  <p class="muted">One tap helps improve future drafts.{% if q.feedback %} You answered: <b>{{ FEEDBACK[q.feedback] }}</b>{% endif %}</p>
+  <form method="post" action="{{ url_for('quotes.feedback', qid=q.id) }}" class="btnrow" style="margin-top:0">
+    <input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+    {% for k, label in FEEDBACK.items() %}<button class="btn small {{ '' if q.feedback==k else 'secondary' }}" name="rating" value="{{ k }}">{{ label }}</button>{% endfor %}
+  </form>
+</div>
+
+{% else %}
+{# ---------------- DRAFT: editable ---------------- #}
+<form method="post" action="{{ url_for('quotes.save', qid=q.id) }}" id="qform" data-totals="{{ url_for('quotes.live_totals') }}" data-csrf="{{ csrf_token() }}">
+  <input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+  <input type="hidden" name="item_count" id="item_count" value="{{ items|length }}">
+  <div class="card">
+    <b>Customer</b>
+    {% set ec = ex.customer if ex else None %}
+    <div class="row three">
+      <div><label>Name {% if ec %}{{ tag('user' if cust and ec.name.value != cust.name else ec.name.source, ec.name.uncertain, cust.name if cust else '') }}{% endif %}</label><input name="cust_name" value="{{ cust.name if cust else '' }}" maxlength="120"></div>
+      <div><label>Phone</label><input name="cust_phone" value="{{ cust.phone if cust else '' }}" maxlength="40" inputmode="tel"></div>
+      <div><label>Email (for sending)</label><input name="cust_email" type="email" value="{{ cust.email if cust else '' }}" maxlength="254" inputmode="email"></div>
+      <div><label>Location {% if ec %}{{ tag('user' if cust and ec.location.value != cust.location else ec.location.source, ec.location.uncertain, cust.location if cust else '') }}{% endif %}</label><input name="cust_location" value="{{ cust.location if cust else '' }}" maxlength="160"></div>
+    </div>
+    <div class="row three">
+      <div><label>Quote language</label><select name="language">
+        {% for v, l in [('en','English'),('ar','العربية'),('both','English + العربية')] %}<option value="{{ v }}" {{ 'selected' if q.language==v }}>{{ l }}</option>{% endfor %}</select></div>
+      <div><label>Valid until</label><input type="date" name="valid_until" value="{{ q.valid_until or '' }}"></div>
+    </div>
+    {% if ex and ex.flags %}{% for f in ex.flags %}<div class="flash warn" style="margin-top:8px">{{ f }}</div>{% endfor %}{% endif %}
+  </div>
+
+  <h2>Items</h2>
+  <div id="items">
+    {% for it in items %}{{ itemfields(loop.index0, it) }}{% endfor %}
+  </div>
+  <div class="card">
+    <div class="row two">
+      <div><label>Add from your catalogue</label>
+        <select id="addsvc"><option value="">Choose a service…</option>
+          {% for s in catalogue %}<option value="{{ s.id }}" data-en="{{ s.name_en }}" data-ar="{{ s.name_ar }}" data-den="{{ s.desc_en }}" data-dar="{{ s.desc_ar }}"
+            data-unit="{{ s.unit }}" data-price="{{ s.default_price_fils|bhd if s.default_price_fils is not none else '' }}" data-tax="{{ s.tax_class }}">{{ s.name_en }}</option>{% endfor %}
+        </select></div>
+      <div style="align-self:end"><button type="button" class="btn secondary" id="addblank">+ Add a blank item</button></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <b>Discount, notes and terms</b>
+    <div class="row two">
+      <div><label>Discount</label>
+        <select name="discount_type" class="calc"><option value="none" {{ 'selected' if q.discount_type=='none' }}>None</option>
+          <option value="percent" {{ 'selected' if q.discount_type=='percent' }}>Percent (%)</option>
+          <option value="fixed" {{ 'selected' if q.discount_type=='fixed' }}>Fixed amount (BHD)</option></select></div>
+      <div><label>Discount value</label><input name="discount_value" class="calc" inputmode="decimal"
+        value="{% if q.discount_type=='percent' %}{{ '%g' % (q.discount_value/100) }}{% elif q.discount_type=='fixed' %}{{ q.discount_value|bhd }}{% endif %}"></div>
+    </div>
+    <label>Note to customer (optional)</label><textarea name="notes" maxlength="500" style="min-height:60px">{{ q.notes }}</textarea>
+    <div class="row two">
+      <div><label>Terms (English)</label><textarea name="terms_en" maxlength="1500">{{ q.terms_en }}</textarea></div>
+      <div><label>الشروط (Arabic)</label><textarea name="terms_ar" dir="rtl" maxlength="1500">{{ q.terms_ar }}</textarea></div>
+    </div>
+  </div>
+
+  <div class="card totals" id="totals">
+    <div><span>Subtotal</span><span id="t_sub">{{ tot.subtotal_fils|bhd }}</span></div>
+    <div><span>Discount</span><span id="t_disc">{{ '-' if tot.discount_fils }}{{ tot.discount_fils|bhd }}</span></div>
+    <div><span id="t_vatlabel">{% if tot.vat_applied %}VAT {{ '%g' % (tot.vat_rate_bp/100) }}%{% else %}VAT (not registered){% endif %}</span><span id="t_vat">{{ tot.vat_fils|bhd }}</span></div>
+    <div class="grand"><span>Total (BHD)</span><span id="t_total">{{ tot.total_fils|bhd }}</span></div>
+    <div class="muted" id="t_warn">{% for w in tot.warnings %}{{ w }}<br>{% endfor %}</div>
+  </div>
+  <div class="notice">Totals are calculated by the app from your prices. VAT follows the settings you confirmed (not tax advice).</div>
+
+  <div class="btnrow">
+    <button class="btn secondary" type="submit" name="action" value="save">Save draft</button>
+    <button class="btn" type="submit" name="action" value="approve">Save &amp; approve ✓</button>
+  </div>
+  <p class="muted">Approving means <b>you</b> have checked every item, price and the VAT. Only approved quotes can be exported or shared.</p>
+</form>
+
+<template id="itemtpl">{{ itemfields('__i__', {'id':'', 'service_id':'', 'origin':'manual', 'uncertain':0, 'customer_words':'', 'title_en':'', 'title_ar':'', 'desc_en':'', 'desc_ar':'', 'quantity_milli':1000, 'unit':'each', 'unit_price_fils':none, 'price_source':'none', 'tax_class':'standard', 'approved':0}) }}</template>
+<script src="{{ url_for('static', filename='quote.js') }}"></script>
+{% include "_status.html" %}
+{% endif %}
+{% endblock %}

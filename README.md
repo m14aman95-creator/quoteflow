@@ -12,15 +12,15 @@ python seed.py --username yourname --password 'YourStrongPassword'   # one accou
 python run.py             # open http://localhost:5000
 ```
 
-Create your owner account with your own username and password. It is a normal business account that offers all four starter service packs (AC, cleaning, household, furniture moving). There is no built-in or default login:
+Create the demo account with your own username and password (it holds all four service packs: AC, cleaning, household, furniture moving, plus sample quote history):
 
 ```bash
 python seed.py --username yourname --password 'YourStrongPassword'
 ```
 
-Add `--sample` to also load a few past quotations so the dashboard is not empty. Log in with that **username** and password; you can change both later under your name at the top right (*Account*). Anyone can also create their own business account at `/register`.
+If you leave out the password, one is generated and printed once. Then log in with that **username** and password. You can change both later under your name at the top right (*Account*).
 
-Without an API key the app uses a built-in rule-based reader (no AI key connected). It handles common requests in English, Gulf Arabic and mixed text. Add a key for full accuracy.
+Without an API key the app uses a built-in rule-based reader ("demo mode"). It handles common requests in English, Gulf Arabic and mixed text. Add a key for full accuracy.
 
 ## What it does
 
@@ -82,7 +82,7 @@ docker run -p 8000:8000 -v qfdata:/data -e SECRET_KEY=$(openssl rand -hex 32) -e
 
 **Render / Railway / Fly:** create a web service from this repo using the Dockerfile, attach a persistent disk mounted at `/data`, and set `SECRET_KEY` (and optionally `ANTHROPIC_API_KEY`). Put it behind HTTPS.
 
-Create the first owner with `python seed.py --username ... --password ...` once inside the container, or just use `/register`.
+Run `python seed.py --username ... --password ...` once inside the container only if you want the demo account. Do not seed a production database.
 
 ## Project layout
 
@@ -93,21 +93,21 @@ quoteflow/            app package (Flask)
   docs.py             bilingual quotation HTML, PDF (headless Chrome), WhatsApp text
   views_*.py          routes: auth, company/settings, catalogue, enquiries/quotes
   templates/ static/  mobile-first UI
-tests/                178 tests
+tests/                104 tests
 eval/                 evaluation sets and reports
-seed.py seed_quotes.py  first owner account and optional sample quotations
+seed.py seed_quotes.py  demo data
 ```
 
 ## Catalogue keyword tips
 
 In each service's keywords: `clean+ac` means both words close together; `~not cooling` is a weak symptom word used only if nothing else matches; `!move out` means never match when that phrase appears.
 
-## Free hosting on Render
+## Free demo hosting on Render
 1. Put the project in a GitHub repository (the folder contents, not the zip).
 2. On render.com: **New > Blueprint**, pick the repository. `render.yaml` sets everything up.
 3. Optional: paste `ANTHROPIC_API_KEY` in the service's Environment tab.
-4. Render asks for `ADMIN_USERNAME` and `ADMIN_PASSWORD`: type the username and password you want. Open the `.onrender.com` link and log in with them. If both are set, that owner account is re-created on every start (the free disk resets); if you leave them out, nothing is created and you sign up at `/register`. Set `QF_SAMPLE_DATA=1` only if you want sample quotations.
-The free plan sleeps after 15 minutes idle and its disk resets, so data you add is lost. Use it for trials only.
+4. Render asks for `ADMIN_USERNAME` and `ADMIN_PASSWORD`: type the username and password you want. Open the `.onrender.com` link and log in with them. The account is re-created on every start (`QF_SEED_DEMO=1`).
+The free plan sleeps after 15 minutes idle and its disk resets, so data you add is lost. Use it for demos only.
 
 ## Sending quotes (email + WhatsApp)
 After you approve a quote, the Share page offers **Send email with PDF** and **Send via WhatsApp**.
@@ -130,30 +130,3 @@ After you approve a quote, open **Share** and press **Create customer link**. Th
 - **accept** (typing their name and ticking a box), **decline** (with an optional reason), ask a question on WhatsApp, or download the PDF (with their chosen add-ons).
 
 You see when they opened it and how they answered (also in the quote list). If email is set up (SMTP_*), the owner also gets an email when the customer accepts or declines. The link is random and unguessable, works only for approved quotes, and stops working if you turn it off or edit the quote. Responses are final: a customer cannot flip a decision after the fact. All customer actions are written to the activity log.
-
-## Customer portal (customers submit and track requests)
-
-Each business has its own portal at `/c/<business-address>/`, for example `https://your-app.onrender.com/c/al-noor-home-services/`. Find the link, a printable QR code and the address setting under **Requests > Portal & QR code**.
-
-**What customers do:** create an account with a mobile number (email optional) and a password, send a request (service, details, location, preferred date), and track it: status, the quotation once you approve it, the scheduled date, and messages. The portal is bilingual (English/Arabic, right-to-left).
-
-**What you do:** new requests appear in **Requests** (with a badge). Open one, review the AI's draft, price it and approve it as usual. Approving publishes the quotation to the customer's portal and emails them if they gave an address and SMTP is set up. The customer accepts or declines on the interactive quote page; you then schedule the job and mark it in progress and completed, and the customer sees each step.
-
-Rules that stay in force: the AI never sets prices, customer text is untrusted, nothing reaches the customer until you approve the quotation, and a customer sees only their own requests. Limits: 10 requests per customer per day; login attempts are throttled per account and per address.
-
-**Verification:** when outgoing email (SMTP) is set up, a new customer must confirm their email with a 6-digit code before they can send requests (the code expires after 15 minutes, allows 5 wrong tries and is stored only as a hash). Updates are emailed only to confirmed addresses, and an unconfirmed address can neither block nor steal the real owner's. If SMTP is not set up, verification is off and the Portal page says so.
-
-Not built yet: SMS verification of the mobile number (needs a paid SMS provider, so the mobile number is not confirmed), photo uploads, self-service password reset by email (the owner can set a temporary password from the request page), WhatsApp Business API messages.
-
-
-## Email on Render (read this if sign-up codes do not arrive)
-- Render's **free** web services block SMTP ports (25/465/587), so Gmail/SMTP cannot work there. Use the **Brevo email API** instead:
-  1. Create a free Brevo account, verify a sender address, create an API key (SMTP & API > API keys).
-  2. In Render > Environment add `BREVO_API_KEY` and `MAIL_FROM` (the verified sender).
-  3. Open **Portal** in the app and press **Send test email**. It tells you plainly if something is wrong.
-- Gmail SMTP (paid Render plan or your own server): the App Password is 16 letters with **no spaces**.
-- If email is not working yet, untick "Require customers to confirm their email" on the Portal page so sign-up still works.
-- Any unexpected error now shows a short reference code; the full detail is in the Render log under that code.
-
-## Business or customer
-Signed-out visitors see **I run a business / I am a customer** tabs (`/start`). Customers find their provider by short name or link (`/find`) and are sent straight to it when only one business has its portal on.

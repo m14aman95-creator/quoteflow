@@ -61,12 +61,11 @@ def test_tenant_isolation_services(app, two_clients):
 
 def test_seed_creates_demo_companies(app):
     import seed
-    import legacy_seed
-    made = legacy_seed.seed_legacy(app)
+    made = seed.seed_legacy(app)
     assert set(made) == {"ac@demo.qf", "clean@demo.qf", "home@demo.qf"}
     c = Client(app)
     r = c.post("/login", {"email": "ac@demo.qf", "password": "demo1234"}, page="/login")
     assert r.status_code == 302
     html = c.get("/catalogue/").get_data(as_text=True)
     assert "AC general service" in html and "CoolBreeze" in c.get("/").get_data(as_text=True)
-    assert legacy_seed.seed_legacy(app) == []  # idempotent
+    assert seed.seed_legacy(app) == []  # idempotent

@@ -1,0 +1,24 @@
+{# Trust cues: what the customer said / what the AI inferred / what is uncertain / what the user approved #}
+{% macro legend() %}
+<div class="legend">
+  <span class="tag customer">Customer said</span>
+  <span class="tag ai">AI inferred</span>
+  <span class="tag unsure">Uncertain / missing</span>
+  <span class="tag approved">You approved</span>
+</div>
+{% endmacro %}
+
+{% macro tag(source, uncertain=False, value=True) %}
+{%- if not value -%}<span class="tag unsure">Missing</span>
+{%- elif uncertain -%}<span class="tag unsure">Uncertain</span>{% if source == 'ai' %} <span class="tag ai">AI inferred</span>{% endif %}
+{%- elif source == 'customer' -%}<span class="tag customer">Customer said</span>
+{%- elif source == 'ai' -%}<span class="tag ai">AI inferred</span>
+{%- elif source == 'user' -%}<span class="tag approved">You edited</span>
+{%- else -%}<span class="tag manual">Manual</span>{%- endif -%}
+{% endmacro %}
+
+{% macro origin_tag(origin) %}
+{%- if origin == 'customer' -%}<span class="tag customer">Customer said</span>
+{%- elif origin == 'ai' -%}<span class="tag ai">AI inferred</span>
+{%- else -%}<span class="tag manual">Added by you</span>{%- endif -%}
+{% endmacro %}

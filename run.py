@@ -4,14 +4,13 @@ from quoteflow import create_app
 
 app = create_app()
 
-# First-owner bootstrap (useful on hosts such as the Render free tier, where the disk resets when the service sleeps).
-# If BOTH ADMIN_USERNAME and ADMIN_PASSWORD are set, that owner account is created on start-up when it does not exist.
-# Nothing is created otherwise: there is no default login, and anyone can register their own business at /register.
-_user = (os.environ.get("ADMIN_USERNAME") or "").strip()
-_pw = os.environ.get("ADMIN_PASSWORD") or ""
-if _user and _pw:
-    from seed import bootstrap_owner
-    bootstrap_owner(app, _user, _pw, sample=os.environ.get("QF_SAMPLE_DATA") == "1")
+# Demo hosting (e.g. Render free tier, where the disk resets on every sleep):
+# set QF_SEED_DEMO=1 (and ADMIN_USERNAME / ADMIN_PASSWORD) and the demo account is recreated on start-up. Safe to repeat.
+if os.environ.get("QF_SEED_DEMO") == "1":
+    from seed import seed_all, credentials_from_env
+    _user, _pw, _generated = credentials_from_env()
+    if seed_all(app, _user, _pw) and _generated:
+        print(f"[QuoteFlow] Demo account created. Username: {_user}  Password: {_pw}  (set ADMIN_PASSWORD to choose your own)", flush=True)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", "5000")), debug=os.environ.get("FLASK_DEBUG") == "1")

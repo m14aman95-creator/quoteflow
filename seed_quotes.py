@@ -1,4 +1,4 @@
-"""Sample quotation history (optional, only when sample data is requested) (past months, so they do not use this month's plan quota)."""
+"""Sample quotation history for the demo accounts (past months, so they do not use this month's plan quota)."""
 from datetime import date, timedelta
 from quoteflow.db import get_db
 from quoteflow.money import compute_quote, LineInput
@@ -33,7 +33,7 @@ CLEAN = [
 def seed_quotes(app, pairs=None):
     with app.app_context():
         db = get_db()
-        for login, data in (pairs or ()):
+        for login, data in (pairs or (("ac@demo.qf", AC), ("clean@demo.qf", CLEAN), ("home@demo.qf", HOME))):
             u = db.execute("SELECT * FROM users WHERE lower(email)=lower(?) OR lower(username)=lower(?)", (login, login)).fetchone()
             if not u:
                 continue
